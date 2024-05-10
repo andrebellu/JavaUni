@@ -1,0 +1,3 @@
+[submodule "UniBSFpLib"]
+	path = UniBSFpLib
+	url = https://github.com/andrebellu/UniBSFpLib.git
