@@ -1,2 +1,1 @@
-# ProgettiUni
-# JavaUni
+# Java Projects
