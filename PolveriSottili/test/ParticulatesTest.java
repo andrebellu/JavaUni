@@ -1,19 +1,21 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Map;
-import java.util.TreeMap;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParticulatesTest {
+    Particulates particulates;
+
+    @BeforeEach
+    public void setUp() {
+        particulates = new Particulates();
+    }
+
     /**
      * Test if the values are correctly added to the weekValues map and are under the max and mean thresholds
      */
     @Test
     public void testValuesUnderThresholds(){
         int value = 20;
-        Particulates particulates = new Particulates();
         for (Week.WeekDay day : Week.WeekDay.values()) {
             particulates.addParticulates(day, value);
         }
@@ -31,7 +33,6 @@ public class ParticulatesTest {
     @Test
     public void testValuesOverMaxThresholds(){
         int value = 40;
-        Particulates particulates = new Particulates();
         for (Week.WeekDay day : Week.WeekDay.values()) {
             particulates.addParticulates(day, value);
         }
@@ -47,7 +48,6 @@ public class ParticulatesTest {
     @Test
     public void testValuesOverMeanThresholds(){
         int value = 40;
-        Particulates particulates = new Particulates();
         for (Week.WeekDay day : Week.WeekDay.values()) {
             particulates.addParticulates(day, value);
             value++;
@@ -64,7 +64,6 @@ public class ParticulatesTest {
     @Test
     public void testValuesOverMeanUnderMaxThresholds(){
         int value = 40;
-        Particulates particulates = new Particulates();
         for (Week.WeekDay day : Week.WeekDay.values()) {
             particulates.addParticulates(day, value);
             value++;

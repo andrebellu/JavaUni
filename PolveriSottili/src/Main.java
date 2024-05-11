@@ -7,13 +7,36 @@ import java.time.Year;
 
 import static it.unibs.fp.mylib.Strings.center;
 
+/**
+ * This class represents the main entry point of the program for managing particulate data.
+ */
 public class Main {
+    /**
+     * Array of strings representing the menu options.
+     */
     static final String[] VOICES = {"Enter data", "Show data", "Show mean threshold", "Show max threshold", "Show if max threshold is exceeded", "Show if mean threshold is exceeded", "Settings"};
+    /**
+     * Title of the program.
+     */
     static final String TITLE = "Particulates in the air";
+    /**
+     * Title of the settings menu.
+     */
     static final String SETTINGS_TITLE = "Settings - Measure unit: µg/m³";
+    /**
+     * Array of strings representing the settings menu options.
+     */
     static final String[] SETTINGS_VOICES = {"Set max threshold", "Reset thresholds"};
+    /**
+     * Logger for logging errors and other messages.
+     */
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
+    /**
+     * The main entry point of the program.
+     *
+     * @param args The command-line arguments.
+     */
     public static void main(String[] args) {
         int choice;
         MyMenu menu = new MyMenu(center(TITLE, MyMenu.getFrameLength()), VOICES);
@@ -108,6 +131,9 @@ public class Main {
 
     }
 
+    /**
+     * Waits for the user to press Enter before continuing.
+     */
     public static void waitForEnter() {
         System.out.println("Press Enter to continue...");
         try {
