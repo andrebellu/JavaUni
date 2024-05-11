@@ -1,5 +1,10 @@
+package test;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import particulates.Particulates;
+import particulates.Week;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParticulatesTest {

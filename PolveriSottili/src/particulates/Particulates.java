@@ -1,3 +1,5 @@
+package particulates;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -46,7 +48,7 @@ public class Particulates {
     }
 
     /**
-     * Constructs a new instance of Particulates.
+     * Constructs a new instance of particulates.Particulates.
      */
     public Particulates() {
 

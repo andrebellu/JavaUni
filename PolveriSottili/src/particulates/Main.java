@@ -1,3 +1,5 @@
+package particulates;
+
 import it.unibs.fp.mylib.Input;
 import it.unibs.fp.mylib.MyMenu;
 import java.util.logging.Level;
@@ -18,7 +20,7 @@ public class Main {
     /**
      * Title of the program.
      */
-    static final String TITLE = "Particulates in the air";
+    static final String TITLE = "particulates.Particulates in the air";
     /**
      * Title of the settings menu.
      */

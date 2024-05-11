@@ -1,3 +1,5 @@
+package particulates;
+
 /**
  * This class represents a week in a specific year and provides methods to access its properties.
  */
@@ -6,7 +8,7 @@ public class Week {
     /**
      * Enum representing the days of the week.
      */
-    enum WeekDay {
+    public enum WeekDay {
         MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
     }
 
@@ -21,7 +23,7 @@ public class Week {
     private int weekNumber;
 
     /**
-     * Constructs a new instance of Week with the given year and week number.
+     * Constructs a new instance of particulates.Week with the given year and week number.
      *
      * @param year       The year of the week.
      * @param weekNumber The week number within the year.
