@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import java.time.Year;
 
-import static it.unibs.fp.mylib.BelleStringhe.center;
+import static it.unibs.fp.mylib.Strings.center;
 
 public class Main {
     static final String[] VOICES = {"Enter data", "Show data", "Show mean threshold", "Show max threshold", "Show if max threshold is exceeded", "Show if mean threshold is exceeded", "Settings"};
