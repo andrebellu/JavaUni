@@ -20,7 +20,7 @@ public class Main {
     /**
      * Title of the program.
      */
-    static final String TITLE = "particulates.Particulates in the air";
+    static final String TITLE = "Particulates in the air";
     /**
      * Title of the settings menu.
      */
@@ -72,7 +72,7 @@ public class Main {
                     particulates.setMeanThreshold();
                     break;
                 case 2:
-                    if (week == null) {
+                    if (week == null || particulates.getWeekValues().isEmpty()) {
                         System.out.println("No data entered");
                         break;
                     }
