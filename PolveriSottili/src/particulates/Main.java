@@ -11,6 +11,7 @@ import static it.unibs.fp.mylib.Strings.center;
 
 /**
  * This class represents the main entry point of the program for managing particulate data.
+ * @author Andrea Bellu
  */
 public class Main {
     /**
