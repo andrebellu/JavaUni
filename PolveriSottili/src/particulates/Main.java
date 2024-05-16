@@ -135,7 +135,7 @@ public class Main {
     }
 
     /**
-     * Waits for the user to press Enter before continuing.
+     * Function to wait for the user to press Enter.
      */
     public static void waitForEnter() {
         System.out.println("Press Enter to continue...");
