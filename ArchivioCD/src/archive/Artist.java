@@ -27,7 +27,7 @@ this.name = name;
 
         try
         {
-            if (checkArtist(artist.name))
+            if (checkArtist(artist.name) != 0)
             {
                 System.out.println("Artist already exists");
             }
@@ -44,18 +44,18 @@ this.name = name;
         fileWriter.close();
     }
 
-    public static void removeArtist(String name) throws IOException {
+    public static void removeArtist(String nickname) throws IOException {
         FileWriter fileWriter = new FileWriter(ARTISTS_PATH, true);
         File file = new File(ARTISTS_PATH);
         try
         {
-            if (checkArtist(name))
+            if (checkArtist(nickname) == 0)
             {
                 System.out.println("Artist not found");
             }
             else
             {
-                fileWriter.write(name + "\n");
+                fileWriter.write(nickname + "\n");
             }
             fileWriter.close();
         }
@@ -65,18 +65,20 @@ this.name = name;
         }
     }
 
-    public static boolean checkArtist(String name) throws IOException {
+    public static int checkArtist(String nickname) throws IOException {
         Scanner reader = new Scanner(new File(ARTISTS_PATH));
+        int line = 0;
         while (reader.hasNextLine())
         {
+            line++;
             String data = reader.nextLine();
             String[] values = data.split(";");
-            if (values[0].equals(name))
+            if (values[2].equals(nickname))
             {
-                return true;
+                return line;
             }
         }
-        return false;
+        return 0;
     }
 
     static public void readArtists() throws FileNotFoundException {

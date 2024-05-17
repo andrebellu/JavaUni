@@ -6,12 +6,13 @@ import it.unibs.fp.mylib.MyMenu;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import static archive.Artist.checkArtist;
 import static archive.Artist.readArtists;
 import static it.unibs.fp.mylib.Strings.center;
 import static it.unibs.fp.mylib.MyMenu.getFrameLength;
 
 public class Main {
-    static String[] voices = {"Artists management", "CDs management", "Songs management", "Play Music"};
+    static String[] voices = {"Artists management", "CDs management", "Play Music"};
     static String[] artistsVoices = {"Add artist", "Remove artist", "Update artist", "Show artists"};
     static String[] cdsVoices = {"Add CD", "Remove CD", "Update CD", "Show CDs"};
     static String[] playVoices = {"Play CD", "Play song", "Shuffle play"};
@@ -57,20 +58,31 @@ public class Main {
                     do {
                         cdsChoice = cdsMenu.scegli();
                         switch (cdsChoice) {
-
+                            case 1:
+                                String title = Input.readNotEmptyString("Insert CD title: ").toLowerCase();
+                                String nickname = Input.readNotEmptyString("Insert artist nickname: ").toLowerCase();
+                                int year = Input.readInt("Insert year of release: ");
+                                int line = checkArtist(nickname);
+                                System.out.println(line);
+                                //archive.addCD(new CD(title, new Artist(artistName, "", "", LocalDate.now()), year));
+                                break;
                         }
                     } while (cdsChoice != 0);
                     break;
                 case 3:
-                    MyMenu playMenu = new MyMenu(center("Songs management", getFrameLength()), playVoices);
+                    MyMenu playMenu = new MyMenu(center("Play Music", getFrameLength()), playVoices);
                     int playChoice;
                     do {
                         playChoice = playMenu.scegli();
                         switch (playChoice) {
+                            case 1:
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
                         }
                     } while (playChoice != 0);
-                    break;
-                case 4:
                     break;
             }
 
