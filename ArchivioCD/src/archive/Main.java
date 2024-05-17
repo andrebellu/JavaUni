@@ -21,8 +21,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         MyMenu menu = new MyMenu(center("Archive", getFrameLength()), voices);
-        Archive archive = new Archive();
-        ArrayList<Song> songs = new ArrayList<>();
+        ArrayList<CD> archive = new ArrayList<>();
         int choice;
 
         do {
@@ -64,7 +63,8 @@ public class Main {
                                 CD cd;
                                 String title = Input.readNotEmptyString("Insert CD title: ").toLowerCase();
 
-                                String nickname = Input.readNotEmptyString("Insert artist nickname: ").toLowerCase();
+                                String nickname = Input.readNotEmptyString("Insert artist nickname, if it has no nickname write name and surname ").toLowerCase();
+
                                 int year = Input.readInt("Insert year of release: ");
 
                                 int line = checkArtist(nickname);
@@ -83,7 +83,7 @@ public class Main {
                                     cd.addTrack(song);
                                 } while (Input.yesOrNo("Do you want to add another song?"));
 
-                                archive.addCD(cd);
+                                archive.add(cd);
 
                                 break;
                             case 2:
@@ -91,7 +91,7 @@ public class Main {
                             case 3:
                                 break;
                             case 4:
-                                for (CD element : archive.getCDs()) {
+                                for (CD element : archive) {
                                     System.out.println(element.toString());
                                 }
                         }

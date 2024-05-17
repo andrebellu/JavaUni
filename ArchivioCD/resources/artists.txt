@@ -1,1 +1,18 @@
-mario;cantante;marietto;2002-04-22
+whitney;houston;whitney houston;1963-08-09
+michael;jackson;michael jackson;1958-08-29
+bob;dylan;bob dylan;1941-05-24
+john;lennon;john lennon;1940-10-09
+elvis;presley;elvis presley;1935-01-08
+aretha;franklin;aretha franklin;1942-03-25
+david;bowie;david bowie;1947-01-08
+queen;queen;queen;---
+beyoncé;giselle knowles-carter;queen bey;1981-09-04
+prince;rogers nelson;prince;1958-06-07
+kurt;cobain;kurt cobain;1967-02-20
+jimi;hendrix;jimi hendrix;1942-11-27
+james;brown;james brown;1933-05-03
+ray;charles;ray charles;1930-09-23
+johnny;cash;johnny cash;1932-02-26
+marco;mengoni;marco mengoni;1988-12-25
+lucio;dalla;lucio dalla;1943-03-04
+lucio;battisti;lucio battisti;1943-03-05
