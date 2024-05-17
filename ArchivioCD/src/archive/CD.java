@@ -15,15 +15,19 @@ public class CD {
         this.year = year;
     }
 
+    public CD() {}
+
     @Override
     public String toString() {
-        return "CD{" +
-                "tracks=" + tracks.toString() +
-                ", title='" + title + '\'' +
-                ", artist=" + artist +
-                ", duration=" + duration +
-                ", year=" + year +
-                '}';
+        String songsTitles = "";
+        for (Song song : tracks){
+            songsTitles += song.title + ", ";
+        }
+        return "CD: " + title + "\n" +
+                "Artist: " + artist.getNickname() + "\n" +
+                "Year: " + year + "\n" +
+                "Tracks: " + songsTitles + "\n";
+
     }
 
     public void addTrack(Song song){

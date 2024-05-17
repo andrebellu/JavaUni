@@ -5,6 +5,7 @@ import it.unibs.fp.mylib.MyMenu;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static archive.Artist.checkArtist;
 import static archive.Artist.readArtists;
@@ -21,6 +22,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         MyMenu menu = new MyMenu(center("Archive", getFrameLength()), voices);
         Archive archive = new Archive();
+        ArrayList<Song> songs = new ArrayList<>();
         int choice;
 
         do {
@@ -59,13 +61,39 @@ public class Main {
                         cdsChoice = cdsMenu.scegli();
                         switch (cdsChoice) {
                             case 1:
+                                CD cd;
                                 String title = Input.readNotEmptyString("Insert CD title: ").toLowerCase();
+
                                 String nickname = Input.readNotEmptyString("Insert artist nickname: ").toLowerCase();
                                 int year = Input.readInt("Insert year of release: ");
+
                                 int line = checkArtist(nickname);
-                                System.out.println(line);
-                                //archive.addCD(new CD(title, new Artist(artistName, "", "", LocalDate.now()), year));
+                                if (line != 0) {
+                                    Artist artist = Artist.getArtist(line);
+                                    cd = new CD(title, artist, year);
+                                } else {
+                                    System.out.println("Artist not found, please add the artist first");
+                                    break;
+                                }
+                                do {
+                                    String songTitle = Input.readNotEmptyString("Insert song title: ");
+                                    int duration = Input.readInt("Insert song duration: ");
+                                    int s_year = Input.readInt("Insert year of release: ");
+                                    Song song = new Song(songTitle, duration, s_year);
+                                    cd.addTrack(song);
+                                } while (Input.yesOrNo("Do you want to add another song?"));
+
+                                archive.addCD(cd);
+
                                 break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                for (CD element : archive.getCDs()) {
+                                    System.out.println(element.toString());
+                                }
                         }
                     } while (cdsChoice != 0);
                     break;
@@ -85,7 +113,6 @@ public class Main {
                     } while (playChoice != 0);
                     break;
             }
-
 
 
         } while (choice != 0);

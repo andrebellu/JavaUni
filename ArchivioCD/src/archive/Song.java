@@ -1,15 +1,13 @@
 package archive;
 
 public class Song {
-    int title;
+    String title;
     int duration;
-    int String;
     int year;
 
-    public Song(int title, int duration, int String, int year) {
+    public Song(String title, int duration, int year) {
         this.title = title;
         this.duration = duration;
-        this.String = String;
         this.year = year;
     }
 }

@@ -94,6 +94,22 @@ this.name = name;
         }
     }
 
+    public static Artist getArtist(int line) throws FileNotFoundException {
+        Scanner reader = new Scanner(new File(ARTISTS_PATH));
+        int i = 0;
+        while (reader.hasNextLine())
+        {
+            i++;
+            String data = reader.nextLine();
+            if (i == line)
+            {
+                String[] values = data.split(";");
+                return new Artist(values[0], values[1], values[2], LocalDate.parse(values[3]));
+            }
+        }
+        return null;
+    }
+
     public void deleteFile() {
         File file = new File(ARTISTS_PATH);
         if (file.delete())
@@ -107,6 +123,7 @@ this.name = name;
     }
 
 
-
-
+    public String getNickname() {
+        return nickname;
+    }
 }
