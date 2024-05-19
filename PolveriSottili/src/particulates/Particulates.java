@@ -127,4 +127,8 @@ public class Particulates {
     public boolean weekValuesEmpty() {
         return weekValues.isEmpty();
     }
+
+    public void printWeekValues() {
+        weekValues.forEach((k, v) -> System.out.println(k + ": " + v));
+    }
 }
