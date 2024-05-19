@@ -128,6 +128,9 @@ public class Particulates {
         return weekValues.isEmpty();
     }
 
+    /**
+     * Prints the particulate values for each day of the week.
+     */
     public void printWeekValues() {
         weekValues.forEach((k, v) -> System.out.println(k + ": " + v));
     }

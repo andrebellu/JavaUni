@@ -7,6 +7,10 @@ import java.time.Year;
 
 import static it.unibs.fp.mylib.Strings.center;
 
+/**
+ * This class represents the menu handler for managing particulate data.
+ * @author Andrea Bellu
+ */
 public class MenuHandler {
     private Particulates particulates;
     private Week week;
@@ -14,11 +18,19 @@ public class MenuHandler {
     private static final String SETTINGS_TITLE = "Settings - Measure unit: µg/m³";
     private static final String[] SETTINGS_VOICES = {"Set max threshold", "Reset thresholds"};
 
+    /**
+     * Constructs a new instance of MenuHandler with the given particulates instance.
+     * @param particulates
+     */
     public MenuHandler(Particulates particulates) {
         this.particulates = particulates;
         this.settingsMenu = new MyMenu(center(SETTINGS_TITLE, MyMenu.getFrameLength()), SETTINGS_VOICES);
     }
 
+    /**
+     * Handles the menu choice using a switch statement.
+     * @param choice The choice made by the user.
+     */
     public void handleMenuChoice(int choice) {
         switch (choice) {
             case 1:
@@ -72,6 +84,9 @@ public class MenuHandler {
         }
     }
 
+    /**
+     * Handles the entering of data for the week.
+     */
     private void handleEnterData() {
         int year = Input.readInt("Enter year: ", 1900, Year.now().getValue());
         int weekNumber = Input.readInt("Enter week number: ");
@@ -82,6 +97,9 @@ public class MenuHandler {
         }
     }
 
+    /**
+     * Handles the showing of data for the week.
+     */
     private void handleShowData() {
         if (particulates.weekValuesEmpty()) {
             System.out.println("No data entered");
@@ -90,6 +108,9 @@ public class MenuHandler {
         }
     }
 
+    /**
+     * Handles the settings menu.
+     */
     private void handleSettings() {
         int settingsChoice = settingsMenu.scegli();
         switch (settingsChoice) {

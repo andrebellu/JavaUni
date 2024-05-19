@@ -15,6 +15,10 @@ public class Main {
     private static final String TITLE = "Particulates in the air";
     private static final String[] VOICES = {"Enter data", "Show data", "Show mean threshold", "Show max threshold", "Show if max threshold is exceeded", "Show if mean threshold is exceeded", "Settings"};
 
+    /**
+     * The main entry point of the program.
+     * @param args The command line arguments.
+     */
     public static void main(String[] args) {
         Particulates particulates = new Particulates();
         MenuHandler menuHandler = new MenuHandler(particulates);
@@ -30,6 +34,9 @@ public class Main {
         } while (choice != 0);
     }
 
+    /**
+     * Waits for the user to press Enter to continue.
+     */
     public static void waitForEnter() {
         System.out.println("Press Enter to continue...");
         try {
