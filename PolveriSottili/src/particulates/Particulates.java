@@ -131,6 +131,11 @@ public class Particulates {
         weekValues.forEach((k, v) -> System.out.println(k + ": " + v));
     }
 
+    /**
+     * Sets the mean threshold for particulate values.
+     *
+     * @param meanThreshold The mean threshold value to set.
+     */
     public void setMeanThreshold(int meanThreshold) {
         this.meanThreshold = meanThreshold;
     }
