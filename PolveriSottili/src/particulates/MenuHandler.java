@@ -16,7 +16,7 @@ public class MenuHandler {
     private Week week;
     private final MyMenu settingsMenu;
     private static final String SETTINGS_TITLE = "Settings - Measure unit: µg/m³";
-    private static final String[] SETTINGS_VOICES = {"Set max threshold", "Reset thresholds"};
+    private static final String[] SETTINGS_VOICES = {"Set max and mean thresholds", "Reset thresholds"};
 
     /**
      * Constructs a new instance of MenuHandler with the given particulates instance.
@@ -45,7 +45,7 @@ public class MenuHandler {
                 break;
             case 3:
                 if (particulates.getMeanThreshold() == 0) {
-                    System.out.println("No data entered: mean threshold not available");
+                    System.out.println("Mean threshold not available");
                     break;
                 }
                 System.out.println("Mean threshold: " + particulates.getMeanThreshold());
