@@ -131,7 +131,6 @@ public class Artist {
         }
     }
 
-
     public String getNickname() {
         return nickname;
     }

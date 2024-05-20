@@ -15,12 +15,13 @@ public class CD {
         this.year = year;
     }
 
-    public CD() {}
+    public CD() {
+    }
 
     @Override
     public String toString() {
         String songsTitles = "";
-        for (Song song : tracks){
+        for (Song song : tracks) {
             songsTitles += song.title + ", ";
         }
         return "CD: " + title + "\n" +
@@ -30,17 +31,17 @@ public class CD {
 
     }
 
-    public void addTrack(Song song){
+    public void addTrack(Song song) {
         tracks.add(song);
     }
 
-    public void removeTrack(Song song){
+    public void removeTrack(Song song) {
         tracks.remove(song);
     }
 
-    public void updateTrack(Song song){
-        for (Song s : tracks){
-            if (s.title == song.title){
+    public void updateTrack(Song song) {
+        for (Song s : tracks) {
+            if (s.title == song.title) {
                 s = song;
             }
         }

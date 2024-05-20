@@ -44,7 +44,7 @@ public class MenuHandler {
                 handleShowData();
                 break;
             case 3:
-                if (particulates.getWeekValues().isEmpty()) {
+                if (particulates.getMeanThreshold() == 0) {
                     System.out.println("No data entered: mean threshold not available");
                     break;
                 }
