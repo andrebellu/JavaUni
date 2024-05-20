@@ -1,6 +1,6 @@
 package test;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import particulates.Particulates;
 import particulates.Week;
@@ -26,9 +26,26 @@ public class ParticulatesTest {
         }
 
         particulates.setMaxThreshold(30);
-        particulates.setMeanThreshold();
+        particulates.setMeanThreshold(25);
+        particulates.setValuesMean();
 
         assertFalse(particulates.isMaxThresholdExceeded());
+        assertFalse(particulates.isMeanThresholdExceeded());
+    }
+
+    /**
+     * Test if the values are correctly added to the weekValues map and are under the mean threshold
+     */
+    @Test
+    public void testValuesUnderMeanThresholds(){
+        int value = 20;
+        for (Week.WeekDay day : Week.WeekDay.values()) {
+            particulates.addParticulates(day, value);
+        }
+
+        particulates.setMeanThreshold(25);
+        particulates.setValuesMean();
+
         assertFalse(particulates.isMeanThresholdExceeded());
     }
 
@@ -58,7 +75,8 @@ public class ParticulatesTest {
             value++;
         }
 
-        particulates.setMeanThreshold();
+        particulates.setMeanThreshold(30);
+        particulates.setValuesMean();
 
         assertTrue(particulates.isMeanThresholdExceeded());
     }
@@ -75,7 +93,8 @@ public class ParticulatesTest {
         }
 
         particulates.setMaxThreshold(50);
-        particulates.setMeanThreshold();
+        particulates.setMeanThreshold(30);
+        particulates.setValuesMean();
 
         assertFalse(particulates.isMaxThresholdExceeded());
         assertTrue(particulates.isMeanThresholdExceeded());

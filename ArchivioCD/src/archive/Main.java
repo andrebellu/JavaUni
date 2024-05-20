@@ -34,11 +34,9 @@ public class Main {
                         artistsChoice = artistsMenu.scegli();
                         switch (artistsChoice) {
                             case 1:
-                                String name = Input.readNotEmptyString("Insert artist name: ").toLowerCase();
-                                String surname = Input.readNotEmptyString("Insert artist surname: ").toLowerCase();
-                                String nickname = Input.readNotEmptyString("Insert artist nickname: ").toLowerCase();
+                                String nickname = Input.readNotEmptyString("Insert artist name: ").toLowerCase();
                                 LocalDate birthDate = LocalDate.of(Input.readInt("Insert year of birth: "), Input.readInt("Insert month of birth: "), Input.readInt("Insert day of birth: "));
-                                Artist.addArtist(new Artist(name, surname, nickname, birthDate));
+                                Artist.addArtist(new Artist(nickname, birthDate));
                                 break;
                             case 2:
                                 String artistName = Input.readNotEmptyString("Insert artist name: ").toLowerCase();

@@ -19,6 +19,10 @@ public class Particulates {
      * The mean threshold for particulate values.
      */
     private int meanThreshold;
+    /**
+     * The mean of the particulate values.
+     */
+    private int valuesMean;
 
     /**
      * Resets the particulate data.
@@ -39,20 +43,17 @@ public class Particulates {
     /**
      * Calculates and sets the mean threshold for particulate values.
      */
-    public void setMeanThreshold() {
-        int sum = 0;
-        for (Week.WeekDay day : weekValues.keySet()) {
-            sum += weekValues.get(day);
+    public void setValuesMean() {
+        for (int value : weekValues.values()) {
+            valuesMean += value;
         }
-        meanThreshold = sum / weekValues.size();
+        valuesMean /= weekValues.size();
     }
 
     /**
      * Constructs a new instance of particulates.Particulates.
      */
-    public Particulates() {
-
-    }
+    public Particulates() {}
 
     /**
      * Adds particulate value for a specific day of the week.
@@ -108,15 +109,10 @@ public class Particulates {
     /**
      * Checks if any particulate value exceeds the mean threshold.
      *
-     * @return True if any particulate value exceeds the mean threshold, false otherwise.
+     * @return True if any particulate values mean exceeds the mean threshold, false otherwise.
      */
     public boolean isMeanThresholdExceeded() {
-        for (int value : weekValues.values()) {
-            if (value > meanThreshold) {
-                return true;
-            }
-        }
-        return false;
+        return valuesMean > meanThreshold;
     }
 
     /**
@@ -133,5 +129,9 @@ public class Particulates {
      */
     public void printWeekValues() {
         weekValues.forEach((k, v) -> System.out.println(k + ": " + v));
+    }
+
+    public void setMeanThreshold(int meanThreshold) {
+        this.meanThreshold = meanThreshold;
     }
 }

@@ -12,9 +12,9 @@ import static it.unibs.fp.mylib.Strings.center;
  * @author Andrea Bellu
  */
 public class MenuHandler {
-    private Particulates particulates;
+    private final Particulates particulates;
     private Week week;
-    private MyMenu settingsMenu;
+    private final MyMenu settingsMenu;
     private static final String SETTINGS_TITLE = "Settings - Measure unit: µg/m³";
     private static final String[] SETTINGS_VOICES = {"Set max threshold", "Reset thresholds"};
 
@@ -117,6 +117,8 @@ public class MenuHandler {
             case 1:
                 int maxThreshold = Input.readInt("Enter max threshold: ");
                 particulates.setMaxThreshold(maxThreshold);
+                int meanThreshold = Input.readInt("Enter mean threshold: ");
+                particulates.setMeanThreshold(meanThreshold);
                 break;
             case 2:
                 particulates.reset();
