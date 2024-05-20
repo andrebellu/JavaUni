@@ -99,6 +99,11 @@ public class Artist {
         return null;
     }
 
+    public static void updateArtist() throws FileNotFoundException {
+        Scanner reader = new Scanner(new File(ARTISTS_PATH));
+
+    }
+
     public void deleteFile() {
         File file = new File(ARTISTS_PATH);
         if (file.delete()) {

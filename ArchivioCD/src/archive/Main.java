@@ -45,7 +45,7 @@ public class Main {
                                 Artist.removeArtist(artistName);
                                 break;
                             case 3:
-                                //Artist.updateArtist();
+                                Artist.updateArtist();
                                 break;
                             case 4:
                                 readArtists();
