@@ -73,13 +73,8 @@ public class Artist {
         while (reader.hasNextLine()) {
             String data = reader.nextLine();
             String[] values = data.split(";");
-
-            if ((values[0] + " " + values[1]).equals(values[2]) || values[1].equals(values[2])) {
-                System.out.printf("%s - %s%n", capitalize(values[2]), values[3]);
-            } else {
-                System.out.printf("%s - %s%n", capitalize(values[0]), values[1]);
-            }
-
+            System.out.println("Artist: " + capitalize(values[0]) + "\n" +
+                    "Birth date: " + values[1] + "\n");
         }
     }
 
@@ -105,7 +100,7 @@ public class Artist {
             line++;
             String data = reader.nextLine();
             String[] values = data.split(";");
-            if (values[2].equals(nick)) {
+            if (values[0].equals(nick)) {
                 break;
             }
         }
