@@ -9,9 +9,17 @@ import static archive.Artist.readArtists;
 import static it.unibs.fp.mylib.Strings.center;
 import static it.unibs.fp.mylib.MyMenu.getFrameLength;
 
+/**
+ * Class to manage the artists menu
+ * @autor Andrea Bellu
+ */
 public class ArtistsMenu {
     private static final String[] artistsVoices = {"Add artist", "Remove artist", "Update artist", "Show artists"};
 
+    /**
+     * Method to show the artists menu
+     * @throws IOException if an I/O error occurs
+     */
     public void show() throws IOException {
         MyMenu artistsMenu = new MyMenu(center("Artists management", getFrameLength()), artistsVoices);
         int artistsChoice;

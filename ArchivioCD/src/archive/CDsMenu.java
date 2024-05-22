@@ -10,14 +10,26 @@ import static archive.Artist.checkArtist;
 import static it.unibs.fp.mylib.Strings.center;
 import static it.unibs.fp.mylib.MyMenu.getFrameLength;
 
+/**
+ * Class to manage the CDs menu
+ * @autor Andrea Bellu
+ */
 public class CDsMenu {
-    private static final String[] cdsVoices = {"Add CD", "Remove CD", "Update CD", "Show CDs"};
-    private ArrayList<CD> archive;
+    private static final String[] cdsVoices = {"Add CD", "Remove CD", "Update CD", "Remove track", "Show CDs"};
+    public static ArrayList<CD> archive;
 
+    /**
+     * Constructor
+     * @param archive the archive of CDs
+     */
     public CDsMenu(ArrayList<CD> archive) {
         this.archive = archive;
     }
 
+    /**
+     * Method to show the CDs menu
+     * @throws IOException if an I/O error occurs
+     */
     public void show() throws IOException {
         MyMenu cdsMenu = new MyMenu(center("CDs management", getFrameLength()), cdsVoices);
         int cdsChoice;
@@ -42,21 +54,55 @@ public class CDsMenu {
                     }
                     do {
                         String songTitle = Input.readNotEmptyString("Insert song title: ");
-                        int duration = Input.readInt("Insert song duration: ");
+                        double duration = Input.readDouble("Insert song duration: ");
                         int s_year = Input.readInt("Insert year of release: ");
                         Song song = new Song(songTitle, duration, s_year);
                         cd.addTrack(song);
                     } while (Input.yesOrNo("Do you want to add another song?"));
 
+                    cd.setDuration();
                     archive.add(cd);
                     break;
                 case 2:
-                    // Implement
+                    String cdTitle = Input.readNotEmptyString("Insert CD title: ").toLowerCase();
+                    for (CD element : archive) {
+                        if (element.getTitle().equals(cdTitle)) {
+                            archive.remove(element);
+                            break;
+                        }
+                    }
                     break;
                 case 3:
-                    // Implement
+                    String cdTitleToUpdate = Input.readNotEmptyString("Insert CD title: ").toLowerCase();
+                    for (CD element : archive) {
+                        if (element.getTitle().equals(cdTitleToUpdate)) {
+                            do {
+                                String songTitle = Input.readNotEmptyString("Insert song title: ");
+                                double duration = Input.readDouble("Insert song duration: ");
+                                int s_year = Input.readInt("Insert year of release: ");
+                                Song song = new Song(songTitle, duration, s_year);
+                                element.addTrack(song);
+                            } while (Input.yesOrNo("Do you want to add another song?"));
+                            break;
+                        }
+                    }
                     break;
                 case 4:
+                    String cdTitleToRemoveTrack = Input.readNotEmptyString("Insert CD title: ").toLowerCase();
+                    for (CD element : archive) {
+                        if (element.getTitle().equals(cdTitleToRemoveTrack)) {
+                            String songTitleToRemove = Input.readNotEmptyString("Insert song title: ");
+                            for (Song song : element.tracks) {
+                                if (song.title.equals(songTitleToRemove)) {
+                                    element.removeTrack(song);
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                case 5:
                     for (CD element : archive) {
                         System.out.println(element.toString());
                     }

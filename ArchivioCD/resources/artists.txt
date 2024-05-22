@@ -16,3 +16,5 @@ johnny cash;1932-02-26
 marco mengoni;1988-12-25
 lucio dalla;1943-03-04
 lucio battisti;1943-03-05
+pink floyd;1965-02-01
+the beatles;1960-08-01
