@@ -9,17 +9,21 @@ public class Elevator {
     private int minFloor;
     private int maxPerson;
     String direction;
-    List<Person> commands = new LinkedList<>();
     List<Person> waitingList = new LinkedList<>();
     List<Person> onBoard = new LinkedList<>();
 
     public Elevator(int maxFloor, int minFloor, int maxPerson, int initialFloor) {
         this.maxFloor = maxFloor;
-        this.minFloor = minFloor;
         this.maxPerson = maxPerson;
         this.currentFloor = initialFloor;
         this.personCount = 0;
         this.direction = "up";
+    }
+
+    private void waitEnterUser() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Press enter to continue...");
+        scanner.nextLine();
     }
 
     public void addPersonToWaitingList(Person person) {
@@ -27,7 +31,44 @@ public class Elevator {
     }
 
     public void simulate() {
+        while (!waitingList.isEmpty() || !onBoard.isEmpty()) {
+            move();
+            unloadPassengers();
+            loadPassengers();
+            printStatus();
+            if (shouldChangeDirection()) {
+                changeDirection();
+            }
+            waitEnterUser();
+        }
     }
+
+    private boolean shouldChangeDirection() {
+        int shortestPathFloor;
+        int[] personPerFloor = countPersonsPerFloor();
+        int[] personDestinationFloor = personDestinationFloor();
+
+        return false;
+    }
+
+    private int[] personDestinationFloor() {
+        int[] personDestinationFloor = new int[maxFloor - minFloor + 1];
+        for (Person person : onBoard) {
+            personDestinationFloor[person.getDestinationFloor()]++;
+        }
+
+        return personDestinationFloor;
+    }
+
+    private int[] countPersonsPerFloor() {
+        int[] personsPerFloor = new int[maxFloor - minFloor + 1];
+        for (Person person : waitingList) {
+            personsPerFloor[person.getCurrentFloor()]++;
+        }
+
+        return personsPerFloor;
+    }
+
 
     private void move() {
         if (direction.equals("up")) {
@@ -44,20 +85,24 @@ public class Elevator {
     }
 
     private void unloadPassengers() {
-        for (Person person : onBoard) {
+        Iterator<Person> iterator = onBoard.iterator();
+        while (iterator.hasNext()) {
+            Person person = iterator.next();
             if (person.getDestinationFloor() == currentFloor) {
-                onBoard.remove(person);
+                iterator.remove();
                 personCount--;
             }
         }
     }
 
     private void loadPassengers() {
-        for (Person person : waitingList) {
+        Iterator<Person> iterator = waitingList.iterator();
+        while (iterator.hasNext()) {
+            Person person = iterator.next();
             if (person.getCurrentFloor() == currentFloor) {
                 if (personCount < maxPerson) {
                     onBoard.add(person);
-                    waitingList.remove(person);
+                    iterator.remove();
                     personCount++;
                 }
             }
@@ -72,7 +117,14 @@ public class Elevator {
         }
     }
 
+
     public void printStatus() {
+        System.out.println("Current floor: " + currentFloor);
+        System.out.println("Direction: " + direction);
+        System.out.println("Person count: " + personCount);
+        System.out.println("Onboard persons: " + onBoard.size());
+        System.out.println("Waiting list persons: " + waitingList.size());
+        System.out.println("-----");
     }
 
     // getter and setter methods

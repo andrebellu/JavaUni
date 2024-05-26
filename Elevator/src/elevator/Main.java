@@ -6,10 +6,9 @@ class Main {
     public static void main(String[] args) {
 
         int numFloors = Input.readInt("Enter the number of floors:", 10, Integer.MAX_VALUE);
+        int bottomFloor = Input.readInt("Enter the bottom floor:", Integer.MIN_VALUE, 0);
 
-        int initialFloor = Input.readInt("Enter the initial floor:");
-
-        Elevator elevator = new Elevator(numFloors, 0, 10, initialFloor);
+        Elevator elevator = new Elevator(numFloors, bottomFloor, 10, 0);
 
         do {
             int currentFloor = Input.readInt("Enter the current floor of the person:");
