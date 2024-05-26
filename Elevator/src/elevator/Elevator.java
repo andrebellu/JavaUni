@@ -30,16 +30,46 @@ public class Elevator {
     }
 
     private void move() {
+        if (direction.equals("up")) {
+            currentFloor++;
+            if (currentFloor == maxFloor) {
+                changeDirection();
+            }
+        } else {
+            currentFloor--;
+            if (currentFloor == minFloor) {
+                changeDirection();
+            }
+        }
     }
 
     private void unloadPassengers() {
+        for (Person person : onBoard) {
+            if (person.getDestinationFloor() == currentFloor) {
+                onBoard.remove(person);
+                personCount--;
+            }
+        }
     }
 
     private void loadPassengers() {
+        for (Person person : waitingList) {
+            if (person.getCurrentFloor() == currentFloor) {
+                if (personCount < maxPerson) {
+                    onBoard.add(person);
+                    waitingList.remove(person);
+                    personCount++;
+                }
+            }
+        }
     }
 
     private void changeDirection() {
-
+        if (direction.equals("up")) {
+            direction = "down";
+        } else {
+            direction = "up";
+        }
     }
 
     public void printStatus() {
