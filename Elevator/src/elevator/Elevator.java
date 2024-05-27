@@ -14,18 +14,17 @@ public class Elevator {
     List<Person> waitingList = new LinkedList<>();
     List<Person> onBoard = new LinkedList<>();
 
-    public Elevator(int maxFloor, int minFloor, int maxPerson, int initialFloor) {
+    public Elevator(int maxFloor, int minFloor, int maxPerson, int initialFloor, String direction) {
         this.maxFloor = maxFloor;
         this.maxPerson = maxPerson;
         this.minFloor = minFloor;
         this.currentFloor = initialFloor;
         this.personCount = 0;
-        this.direction = "up";
+        this.direction = direction;
     }
 
     private void waitEnterUser() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Press enter to continue...");
         scanner.nextLine();
     }
 
@@ -154,14 +153,12 @@ public class Elevator {
         }
     }
 
-
     public void printStatus() {
         System.out.println("Current floor: " + currentFloor);
         System.out.println("Direction: " + direction);
-        System.out.println("Person count: " + personCount);
         System.out.println("Onboard people: " + onBoard.size());
         System.out.println("Waiting list people: " + waitingList.size());
-        System.out.println("-----");
+        System.out.println("██████████████████████Press Enter to continue...██████████████████████");
     }
 
     // getter and setter methods
