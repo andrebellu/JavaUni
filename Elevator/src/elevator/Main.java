@@ -7,8 +7,10 @@ class Main {
 
         int numFloors = Input.readInt("Enter the number of floors:", 10, Integer.MAX_VALUE);
         int bottomFloor = Input.readInt("Enter the bottom floor:", Integer.MIN_VALUE, 0);
+        int initialFloor = Input.readInt("Enter the initial floor:", bottomFloor, numFloors - 1);
+        int maxPerson = Input.readInt("Enter the maximum number of people the elevator can carry:", 1, Integer.MAX_VALUE);
 
-        Elevator elevator = new Elevator(numFloors, bottomFloor, 10, 0);
+        Elevator elevator = new Elevator(numFloors, bottomFloor, maxPerson, initialFloor);
 
         do {
             int currentFloor = Input.readInt("Enter the current floor of the person:");

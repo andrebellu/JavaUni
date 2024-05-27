@@ -17,6 +17,7 @@ public class Elevator {
     public Elevator(int maxFloor, int minFloor, int maxPerson, int initialFloor) {
         this.maxFloor = maxFloor;
         this.maxPerson = maxPerson;
+        this.minFloor = minFloor;
         this.currentFloor = initialFloor;
         this.personCount = 0;
         this.direction = "up";
@@ -79,6 +80,7 @@ public class Elevator {
         int currentFloor = getCurrentFloor();
         int[] floorEfficiencyRating = new int[maxFloor];
         int points = maxFloor;
+
         for (int i = 0; i < maxFloor; i++) {
             floorEfficiencyRating[i] = 0;
         }
@@ -100,8 +102,6 @@ public class Elevator {
 
         return floorEfficiencyRating;
     }
-
-
 
     private void move() {
         if (direction.equals("up")) {
@@ -130,7 +130,7 @@ public class Elevator {
 
     private void loadPassengers() {
         Iterator<Person> iterator = waitingList.iterator();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext() && checkMaxPerson()) {
             Person person = iterator.next();
             if (person.getCurrentFloor() == currentFloor) {
                 if (personCount < maxPerson) {
@@ -140,6 +140,10 @@ public class Elevator {
                 }
             }
         }
+    }
+
+    private boolean checkMaxPerson() {
+        return personCount < maxPerson;
     }
 
     private void changeDirection() {
@@ -155,8 +159,8 @@ public class Elevator {
         System.out.println("Current floor: " + currentFloor);
         System.out.println("Direction: " + direction);
         System.out.println("Person count: " + personCount);
-        System.out.println("Onboard persons: " + onBoard.size());
-        System.out.println("Waiting list persons: " + waitingList.size());
+        System.out.println("Onboard people: " + onBoard.size());
+        System.out.println("Waiting list people: " + waitingList.size());
         System.out.println("-----");
     }
 
