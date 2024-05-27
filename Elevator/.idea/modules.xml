@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Elevator.iml" filepath="$PROJECT_DIR$/Elevator.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../JavaUni/UniBSFpLib/UniBSFpLib.iml" filepath="$PROJECT_DIR$/../../JavaUni/UniBSFpLib/UniBSFpLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../UniBSFpLib/UniBSFpLib.iml" filepath="$PROJECT_DIR$/../UniBSFpLib/UniBSFpLib.iml" />
     </modules>
   </component>
 </project>

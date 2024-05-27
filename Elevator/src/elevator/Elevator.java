@@ -1,5 +1,7 @@
 package elevator;
 
+import it.unibs.fp.mylib.Input;
+
 import java.util.*;
 
 public class Elevator {
@@ -40,34 +42,65 @@ public class Elevator {
                 changeDirection();
             }
             waitEnterUser();
+
+            if (waitingList.isEmpty() && onBoard.isEmpty() && Input.yesOrNo("Do you want to add another person?")) {
+                do {
+                    int currentFloor = Input.readInt("Enter the current floor of the person:");
+                    int destinationFloor = Input.readInt("Enter the destination floor of the person:");
+                    Person person = new Person(currentFloor, destinationFloor);
+                    addPersonToWaitingList(person);
+                } while (Input.yesOrNo("Do you want to add another person?"));
+            }
         }
     }
 
     private boolean shouldChangeDirection() {
-        int shortestPathFloor;
-        int[] personPerFloor = countPersonsPerFloor();
-        int[] personDestinationFloor = personDestinationFloor();
+        int efficientPath;
+
+        int[] floorEfficiencyRating = rateFloors();
+
+        System.out.println("Floor efficiency rating: " + Arrays.toString(floorEfficiencyRating));
+
+        for (int i = 0; i < maxFloor; i++) {
+            if (floorEfficiencyRating[i] > 0) {
+                efficientPath = i;
+                if (efficientPath > currentFloor) {
+                    return !direction.equals("up");
+                } else {
+                    return !direction.equals("down");
+                }
+            }
+        }
 
         return false;
     }
 
-    private int[] personDestinationFloor() {
-        int[] personDestinationFloor = new int[maxFloor - minFloor + 1];
-        for (Person person : onBoard) {
-            personDestinationFloor[person.getDestinationFloor()]++;
+    private int[] rateFloors() {
+        int currentFloor = getCurrentFloor();
+        int[] floorEfficiencyRating = new int[maxFloor];
+        int points = maxFloor;
+        for (int i = 0; i < maxFloor; i++) {
+            floorEfficiencyRating[i] = 0;
         }
-
-        return personDestinationFloor;
-    }
-
-    private int[] countPersonsPerFloor() {
-        int[] personsPerFloor = new int[maxFloor - minFloor + 1];
         for (Person person : waitingList) {
-            personsPerFloor[person.getCurrentFloor()]++;
+            floorEfficiencyRating[person.getCurrentFloor()]++;
+        }
+        for (Person person : onBoard) {
+            floorEfficiencyRating[person.getDestinationFloor()]++;
         }
 
-        return personsPerFloor;
+        for (int i = 0; i < maxFloor; i++) {
+            if (i == currentFloor || floorEfficiencyRating[i] == 0) {
+                floorEfficiencyRating[i] = 0;
+            } else {
+                floorEfficiencyRating[i] += points - (currentFloor - i);
+                points--;
+            }
+        }
+
+        return floorEfficiencyRating;
     }
+
 
 
     private void move() {
@@ -128,7 +161,6 @@ public class Elevator {
     }
 
     // getter and setter methods
-
     public int getPersonCount() {
         return personCount;
     }
