@@ -15,7 +15,7 @@ public class Elevator {
     List<Person> onBoard = new LinkedList<>();
 
     public Elevator(int maxFloor, int minFloor, int maxPerson, int initialFloor, String direction) {
-        this.maxFloor = maxFloor;
+        this.maxFloor = maxFloor + minFloor;
         this.maxPerson = maxPerson;
         this.minFloor = minFloor;
         this.currentFloor = initialFloor;
@@ -57,47 +57,40 @@ public class Elevator {
     }
 
     private boolean shouldChangeDirection() {
-        int efficientPath;
+        float[] floorEfficiencyRating = rateFloors();
+        // System.out.println("Floor efficiency rating: " + Arrays.toString(floorEfficiencyRating));
 
-        int[] floorEfficiencyRating = rateFloors();
+        float maxRating = 0F;
+        int targetFloor = currentFloor;
 
-        System.out.println("Floor efficiency rating: " + Arrays.toString(floorEfficiencyRating));
-
-        for (int i = 0; i < maxFloor; i++) {
-            if (floorEfficiencyRating[i] > 0) {
-                efficientPath = i;
-                if (efficientPath > currentFloor) {
-                    return !direction.equals("up");
-                } else {
-                    return !direction.equals("down");
-                }
+        for (int i = 0; i < floorEfficiencyRating.length; i++) {
+            if (floorEfficiencyRating[i] > maxRating) {
+                maxRating = floorEfficiencyRating[i];
+                targetFloor = i;
             }
         }
 
-        return false;
+        if (targetFloor > currentFloor && !direction.equals("up")) {
+            return true;
+        } else return targetFloor < currentFloor && !direction.equals("down");
     }
 
-    private int[] rateFloors() {
-        int currentFloor = getCurrentFloor();
-        int[] floorEfficiencyRating = new int[maxFloor];
-        int points = maxFloor;
+    private float[] rateFloors() {
+        float[] floorEfficiencyRating = new float[maxFloor + Math.abs(minFloor) + 1];
+        Arrays.fill(floorEfficiencyRating, 0);
 
-        for (int i = 0; i < maxFloor; i++) {
-            floorEfficiencyRating[i] = 0;
-        }
         for (Person person : waitingList) {
-            floorEfficiencyRating[person.getCurrentFloor()]++;
-        }
-        for (Person person : onBoard) {
-            floorEfficiencyRating[person.getDestinationFloor()]++;
+            floorEfficiencyRating[person.getCurrentFloor()] += 1;
         }
 
-        for (int i = 0; i < maxFloor; i++) {
-            if (i == currentFloor || floorEfficiencyRating[i] == 0) {
-                floorEfficiencyRating[i] = 0;
-            } else {
-                floorEfficiencyRating[i] += points - (currentFloor - i);
-                points--;
+        for (Person person : onBoard) {
+            floorEfficiencyRating[person.getDestinationFloor()] += 1.5F;
+        }
+
+        for (int i = 0; i < floorEfficiencyRating.length; i++) {
+            if (floorEfficiencyRating[i] > 0) {
+                int distance = Math.abs(currentFloor - i);
+                floorEfficiencyRating[i] += ((maxFloor + minFloor) - distance);
             }
         }
 
