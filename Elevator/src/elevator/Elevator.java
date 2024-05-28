@@ -34,9 +34,9 @@ public class Elevator {
 
     public void simulate() {
         while (!waitingList.isEmpty() || !onBoard.isEmpty()) {
-            move();
             unloadPassengers();
             loadPassengers();
+            move();
             printStatus();
             if (shouldChangeDirection()) {
                 changeDirection();
@@ -52,6 +52,8 @@ public class Elevator {
                 } while (Input.yesOrNo("Do you want to add another person?"));
             }
         }
+
+        System.out.println("Simulation ended.");
     }
 
     private boolean shouldChangeDirection() {
