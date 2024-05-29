@@ -1,0 +1,6 @@
+-- elevator settings
+number of floors: 10
+bottom floor: 0
+initial floor: 0
+max people: 5
+direction: up

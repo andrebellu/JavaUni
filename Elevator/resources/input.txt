@@ -1,0 +1,4 @@
+-- input file for people, starting floor and destination floor
+0 5
+3 7
+2 8
