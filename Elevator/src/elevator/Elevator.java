@@ -146,45 +146,4 @@ public class Elevator {
         System.out.println("Waiting list people: " + waitingList.size());
         System.out.println("██████████████████████Press Enter to continue...██████████████████████");
     }
-
-    // getter and setter methods
-    public int getPersonCount() {
-        return personCount;
-    }
-
-    public void setPersonCount(int personCount) {
-        this.personCount = personCount;
-    }
-
-    public int getCurrentFloor() {
-        return currentFloor;
-    }
-
-    public void setCurrentFloor(int currentFloor) {
-        this.currentFloor = currentFloor;
-    }
-
-    public int getMaxFloor() {
-        return maxFloor;
-    }
-
-    public void setMaxFloor(int maxFloor) {
-        this.maxFloor = maxFloor;
-    }
-
-    public int getMinFloor() {
-        return minFloor;
-    }
-
-    public void setMinFloor(int minFloor) {
-        this.minFloor = minFloor;
-    }
-
-    public int getMaxPerson() {
-        return maxPerson;
-    }
-
-    public void setMaxPerson(int maxPerson) {
-        this.maxPerson = maxPerson;
-    }
 }
