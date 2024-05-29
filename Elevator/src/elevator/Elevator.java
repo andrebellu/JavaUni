@@ -1,7 +1,5 @@
 package elevator;
 
-import it.unibs.fp.mylib.Input;
-
 import java.util.*;
 
 public class Elevator {
@@ -24,8 +22,14 @@ public class Elevator {
     }
 
     private void waitEnterUser() {
+        System.out.println("Press Enter continue...");
         Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.isEmpty() || input.trim().equals(" ")) {
+                break;
+            }
+        }
     }
 
     public void addPersonToWaitingList(Person person) {
