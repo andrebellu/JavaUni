@@ -42,15 +42,6 @@ public class Elevator {
                 changeDirection();
             }
             waitEnterUser();
-
-            if (waitingList.isEmpty() && onBoard.isEmpty() && Input.yesOrNo("Do you want to add another person?")) {
-                do {
-                    int currentFloor = Input.readInt("Enter the current floor of the person:");
-                    int destinationFloor = Input.readInt("Enter the destination floor of the person:");
-                    Person person = new Person(currentFloor, destinationFloor);
-                    addPersonToWaitingList(person);
-                } while (Input.yesOrNo("Do you want to add another person?"));
-            }
         }
 
         System.out.println("Simulation ended.");
