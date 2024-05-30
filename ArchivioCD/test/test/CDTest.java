@@ -2,10 +2,12 @@ package test;
 
 import archive.Artist;
 import archive.CD;
+import archive.CDsMenu;
 import archive.Song;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -79,5 +81,20 @@ public class CDTest {
         cd.setDuration();
 
         assertEquals(7.5, cd.getDuration(), 0.01);
+    }
+
+
+    /**
+     * Tests the removeCD method.
+     */
+    @Test
+    public void removeCD(){
+        ArrayList<CD> archive = new ArrayList<>();
+        Artist artist = new Artist("test_artist", LocalDate.of(1990, 1, 1));
+        CD cd = new CD("test_cd", artist, 2020);
+        CDsMenu cdsMenu = new CDsMenu(archive);
+        archive.add(cd);
+        cdsMenu.removeCD("test_cd");
+        assertEquals(0, archive.size());
     }
 }
