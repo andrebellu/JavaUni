@@ -4,7 +4,6 @@ import it.unibs.fp.mylib.Input;
 import it.unibs.fp.mylib.MyMenu;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static it.unibs.fp.mylib.Strings.center;
