@@ -53,7 +53,7 @@ public class Elevator {
 
     private boolean shouldChangeDirection() {
         float[] floorEfficiencyRating = rateFloors();
-        // System.out.println("Floor efficiency rating: " + Arrays.toString(floorEfficiencyRating));
+        System.out.println("Floor efficiency rating: " + Arrays.toString(floorEfficiencyRating));
 
         float maxRating = 0F;
         int targetFloor = currentFloor;
@@ -71,26 +71,39 @@ public class Elevator {
     }
 
     private float[] rateFloors() {
-        float[] floorEfficiencyRating = new float[maxFloor + Math.abs(minFloor) + 1];
+        int totalFloors = maxFloor + Math.abs(minFloor) + 1;
+        float[] floorEfficiencyRating = new float[totalFloors];
         Arrays.fill(floorEfficiencyRating, 0);
 
+        float waitingWeight = 1.0F;
+        float onboardWeight = 1.5F;
+        float distancePenalty = 0.5F;
+
         for (Person person : waitingList) {
-            floorEfficiencyRating[person.getCurrentFloor()] += 1;
+            int floorIndex = person.getCurrentFloor();
+            floorEfficiencyRating[floorIndex] += waitingWeight;
         }
 
         for (Person person : onBoard) {
-            floorEfficiencyRating[person.getDestinationFloor()] += 1.5F;
+            int floorIndex = person.getDestinationFloor();
+            floorEfficiencyRating[floorIndex] += onboardWeight;
         }
 
-        for (int i = 0; i < floorEfficiencyRating.length; i++) {
+        for (int i = 0; i < totalFloors; i++) {
             if (floorEfficiencyRating[i] > 0) {
                 int distance = Math.abs(currentFloor - i);
-                floorEfficiencyRating[i] += ((maxFloor + minFloor) - distance);
+                floorEfficiencyRating[i] -= distance * distancePenalty;
+
+                if ((direction.equals("up") && i > currentFloor) ||
+                        (direction.equals("down") && i < currentFloor)) {
+                    floorEfficiencyRating[i] += distancePenalty;
+                }
             }
         }
 
         return floorEfficiencyRating;
     }
+
 
     private void move() {
         if (direction.equals("up")) {
