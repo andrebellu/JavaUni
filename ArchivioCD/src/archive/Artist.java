@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -21,7 +23,7 @@ public class Artist {
     /**
      * Path to the file containing the artists, the path is different if the OS is Windows or not
      */
-    private static final String ARTISTS_PATH = System.getProperty("os.name").toLowerCase().contains("win") ? "resources\\artists.txt" : "resources/artists.txt";
+    public static final String ARTISTS_PATH = System.getProperty("os.name").toLowerCase().contains("win") ? "resources\\artists.txt" : "resources/artists.txt";
 
     /**
      * Constructor for the Artist class
@@ -61,18 +63,31 @@ public class Artist {
      * @throws IOException if the file is not found
      */
     public static void removeArtist(String nickname) throws IOException {
-        FileWriter fileWriter = new FileWriter(ARTISTS_PATH, true);
         File file = new File(ARTISTS_PATH);
-        try {
-            if (checkArtist(nickname) == 0) {
-                System.out.println("Artist not found");
-            } else {
-                fileWriter.write(nickname + "\n");
+        File tempFile = new File(file.getAbsolutePath() + ".tmp");
+
+        try (Scanner reader = new Scanner(file); FileWriter writer = new FileWriter(tempFile)) {
+            boolean artistFound = false;
+
+            while (reader.hasNextLine()) {
+                String line = reader.nextLine();
+                String[] values = line.split(";");
+                if (!values[0].equalsIgnoreCase(nickname)) {
+                    writer.write(line + System.lineSeparator());
+                } else {
+                    artistFound = true;
+                }
             }
-            fileWriter.close();
+
+            if (!artistFound) {
+                System.out.println("Artist not found");
+            }
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
+
+        Files.delete(Paths.get(ARTISTS_PATH));
+        Files.move(Paths.get(tempFile.getAbsolutePath()), Paths.get(ARTISTS_PATH));
     }
 
     /**

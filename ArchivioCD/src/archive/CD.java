@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Andrea Bellu
  */
 public class CD {
-    ArrayList<Song> tracks = new ArrayList<>();
+    public ArrayList<Song> tracks = new ArrayList<>();
     String title;
     Artist artist;
     double duration;
@@ -66,7 +66,8 @@ public class CD {
     public void updateTrack(Song song) {
         for (Song s : tracks) {
             if (Objects.equals(s.title, song.title)) {
-                s = song;
+                s.duration = song.duration;
+                s.year = song.year;
             }
         }
     }
@@ -86,5 +87,13 @@ public class CD {
         for (Song song : tracks) {
             this.duration += song.duration;
         }
+    }
+
+    /**
+     * Method to get the duration of the CD
+     * @return the duration of the CD
+     */
+    public double getDuration() {
+        return duration;
     }
 }

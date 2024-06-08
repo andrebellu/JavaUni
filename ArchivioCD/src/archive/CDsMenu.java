@@ -65,12 +65,7 @@ public class CDsMenu {
                     break;
                 case 2:
                     String cdTitle = Input.readNotEmptyString("Insert CD title: ").toLowerCase();
-                    for (CD element : archive) {
-                        if (element.getTitle().equals(cdTitle)) {
-                            archive.remove(element);
-                            break;
-                        }
-                    }
+                    removeCD(cdTitle);
                     break;
                 case 3:
                     String cdTitleToUpdate = Input.readNotEmptyString("Insert CD title: ").toLowerCase();
@@ -109,5 +104,14 @@ public class CDsMenu {
                     break;
             }
         } while (cdsChoice != 0);
+    }
+
+    public void removeCD(String cdTitle) {
+        for (CD element : archive) {
+            if (element.getTitle().equals(cdTitle)) {
+                archive.remove(element);
+                break;
+            }
+        }
     }
 }
