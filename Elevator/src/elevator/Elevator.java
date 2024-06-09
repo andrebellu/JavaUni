@@ -3,13 +3,10 @@ package elevator;
 import it.unibs.fp.mylib.Input;
 
 import java.io.IOException;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
 public class Elevator implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     private int personCount;
     private int currentFloor;

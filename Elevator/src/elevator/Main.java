@@ -1,10 +1,16 @@
 package elevator;
 
+import it.unibs.fp.mylib.MyMenu;
+
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        final String [] VOICES = {"Load simulation state", "Start new simulation"};
+        final String TITLE = "Elevator Simulator";
+        MyMenu menu = new MyMenu(TITLE, VOICES);
+
         Scanner scanner = new Scanner(System.in);
         Elevator elevator;
 

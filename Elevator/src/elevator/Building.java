@@ -3,8 +3,6 @@ package elevator;
 import java.io.Serializable;
 
 public class Building implements Serializable {
-    private static final long serialVersionUID = 1L;
-
     private int maxFloor;
     private int minFloor;
 
