@@ -1,42 +1,38 @@
 package elevator;
 
+import it.unibs.fp.mylib.Input;
+
+import java.io.IOException;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
-public class Elevator {
+public class Elevator implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private int personCount;
     private int currentFloor;
     private int maxFloor;
     private int minFloor;
     private int maxPerson;
-    String direction;
-    List<Person> waitingList = new LinkedList<>();
-    List<Person> onBoard = new LinkedList<>();
+    private String direction;
+    private List<Person> waitingList = new LinkedList<>();
+    private List<Person> onBoard = new LinkedList<>();
 
-    public Elevator(int maxFloor, int minFloor, int maxPerson, int initialFloor, String direction) {
-        this.maxFloor = maxFloor + minFloor;
+    public Elevator(Building building, int maxPerson, int initialFloor, String direction) {
+        this.maxFloor = building.getMaxFloor();
+        this.minFloor = building.getMinFloor();
         this.maxPerson = maxPerson;
-        this.minFloor = minFloor;
         this.currentFloor = initialFloor;
-        this.personCount = 0;
         this.direction = direction;
-    }
-
-    private void waitEnterUser() {
-        System.out.println("Press Enter continue...");
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            String input = scanner.nextLine();
-            if (input.isEmpty() || input.trim().equals(" ")) {
-                break;
-            }
-        }
     }
 
     public void addPersonToWaitingList(Person person) {
         waitingList.add(person);
     }
 
-    public void simulate() {
+    public void simulate() throws IOException {
         while (!waitingList.isEmpty() || !onBoard.isEmpty()) {
             unloadPassengers();
             loadPassengers();
@@ -51,9 +47,24 @@ public class Elevator {
         System.out.println("Simulation ended.");
     }
 
+    private void waitEnterUser() throws IOException {
+        System.out.println("Press Enter to continue or press \"s\" to save the current state and exit...");
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        if (input.equals("s")) {
+            String filename = "./resources/saves/";
+            filename += Input.readNotEmptyString("Enter the filename to save to: ");
+            StateHandler.saveState(this, filename);
+            System.out.println("Simulation saved.");
+            System.exit(0);
+        } else {
+            System.out.println("Continuing simulation...");
+        }
+    }
+
     private boolean shouldChangeDirection() {
         float[] floorEfficiencyRating = rateFloors();
-        System.out.println("Floor efficiency rating: " + Arrays.toString(floorEfficiencyRating));
+        System.out.println(Arrays.toString(floorEfficiencyRating));
 
         float maxRating = 0F;
         int targetFloor = currentFloor;
