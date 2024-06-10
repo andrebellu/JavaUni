@@ -5,8 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class FileHandler {
-    static final String OPTIONS = System.getProperty("os.name").toLowerCase().contains("win") ? "resources\\options.txt" : "resources/options.txt";
-    static final String INPUT = System.getProperty("os.name").toLowerCase().contains("win") ? "resources\\input.txt" : "resources/input.txt";
+    // static final String OPTIONS = System.getProperty("os.name").toLowerCase().contains("win") ? "resources\\options.txt" : "resources/options.txt";
+    // static final String INPUT = System.getProperty("os.name").toLowerCase().contains("win") ? "resources\\input.txt" : "resources/input.txt";
+    static final String OPTIONS = "resources/options.txt";
+    static final String INPUT = "resources/input.txt";
 
     public static Building readBuildingSettings() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(OPTIONS));
@@ -105,7 +107,14 @@ public class FileHandler {
             if (parts.length == 2) {
                 int currentFloor = Integer.parseInt(parts[0]);
                 int destinationFloor = Integer.parseInt(parts[1]);
+
+                if (currentFloor == destinationFloor) {
+                    System.out.println("\n‼️Error: current floor and destination floor cannot be the same, check the input file. Person skipped.\n");
+                    continue;
+                }
+
                 Person person = new Person(currentFloor, destinationFloor);
+
                 elevator.addPersonToWaitingList(person);
             }
         }
