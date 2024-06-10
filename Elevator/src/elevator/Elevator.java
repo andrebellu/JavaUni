@@ -3,23 +3,26 @@ package elevator;
 import it.unibs.fp.mylib.Input;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
 public class Elevator implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private int personCount;
     private int currentFloor;
-    private int maxFloor;
-    private int minFloor;
-    private int maxPerson;
+    private final int maxFloor;
+    private final int minFloor;
+    private final int maxPerson;
     private String direction;
-    private List<Person> waitingList = new LinkedList<>();
-    private List<Person> onBoard = new LinkedList<>();
+    private final List<Person> waitingList = new LinkedList<>();
+    private final List<Person> onBoard = new LinkedList<>();
 
     public Elevator(Building building, int maxPerson, int initialFloor, String direction) {
-        this.maxFloor = building.getMaxFloor();
-        this.minFloor = building.getMinFloor();
+        this.maxFloor = building.maxFloor();
+        this.minFloor = building.minFloor();
         this.maxPerson = maxPerson;
         this.currentFloor = initialFloor;
         this.direction = direction;
@@ -45,7 +48,7 @@ public class Elevator implements Serializable {
     }
 
     private void waitEnterUser() throws IOException {
-        System.out.println("Press Enter to continue or press \"s\" to save the current state and exit...");
+        System.out.println("████Press Enter to continue or press \"s\" to save the current state and exit...");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         if (input.equals("s")) {
@@ -169,6 +172,5 @@ public class Elevator implements Serializable {
         System.out.println("Direction: " + direction);
         System.out.println("Onboard people: " + onBoard.size());
         System.out.println("Waiting list people: " + waitingList.size());
-        System.out.println("██████████████████████Press Enter to continue...██████████████████████");
     }
 }
