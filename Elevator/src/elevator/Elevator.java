@@ -37,10 +37,10 @@ public class Elevator implements Serializable {
             unloadPassengers();
             loadPassengers();
             move();
-            printStatus();
             if (shouldChangeDirection()) {
                 changeDirection();
             }
+            printStatus();
             waitEnterUser();
         }
 
@@ -48,23 +48,22 @@ public class Elevator implements Serializable {
     }
 
     private void waitEnterUser() throws IOException {
-        System.out.println("████Press Enter to continue or press \"s\" to save the current state and exit...");
+        System.out.println("~~~~Press Enter to continue or press \"s\" to save the current state and exit...");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
+
         if (input.equals("s")) {
             String filename = "./resources/saves/";
             filename += Input.readNotEmptyString("Enter the filename to save to: ");
             StateHandler.saveState(this, filename);
             System.out.println("Simulation saved.");
             System.exit(0);
-        } else {
-            System.out.println("Continuing simulation...");
         }
     }
 
     private boolean shouldChangeDirection() {
         float[] floorEfficiencyRating = rateFloors();
-        System.out.println(Arrays.toString(floorEfficiencyRating));
+        // System.out.println(Arrays.toString(floorEfficiencyRating));
 
         float maxRating = 0F;
         int targetFloor = currentFloor;
@@ -168,9 +167,54 @@ public class Elevator implements Serializable {
     }
 
     public void printStatus() {
+        String direction = this.direction.equals("up") ? "▲" : "▼";
+        System.out.println("▉" + direction);
         System.out.println("Current floor: " + currentFloor);
-        System.out.println("Direction: " + direction);
         System.out.println("Onboard people: " + onBoard.size());
         System.out.println("Waiting list people: " + waitingList.size());
+    }
+
+    public List<Person> getOnBoard() {
+        return onBoard;
+    }
+
+    public List<Person> getWaitingList() {
+        return waitingList;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public int getMaxPerson() {
+        return maxPerson;
+    }
+
+    public int getMinFloor() {
+        return minFloor;
+    }
+
+    public int getMaxFloor() {
+        return maxFloor;
+    }
+
+    public int getCurrentFloor() {
+        return currentFloor;
+    }
+
+    public void setCurrentFloor(int currentFloor) {
+        this.currentFloor = currentFloor;
+    }
+
+    public int getPersonCount() {
+        return personCount;
+    }
+
+    public void setPersonCount(int personCount) {
+        this.personCount = personCount;
     }
 }
