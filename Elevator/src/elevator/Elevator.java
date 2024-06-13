@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * The {@code Elevator} class represents an elevator in a building.
@@ -97,21 +98,20 @@ public class Elevator implements Serializable {
      * @return {@code true} if the elevator should change direction, {@code false} otherwise
      */
     private boolean shouldChangeDirection() {
-        float[] floorEfficiencyRating = rateFloors();
+        Map<Integer, Float> floorEfficiencyRating = rateFloors();
 
-        float maxRating = 0F;
+        float maxRating = Float.NEGATIVE_INFINITY;
         int targetFloor = currentFloor;
 
-        for (int i = 0; i < floorEfficiencyRating.length; i++) {
-            if (floorEfficiencyRating[i] > maxRating) {
-                maxRating = floorEfficiencyRating[i];
-                targetFloor = i;
+        for (Map.Entry<Integer, Float> entry : floorEfficiencyRating.entrySet()) {
+            if (entry.getValue() > maxRating) {
+                maxRating = entry.getValue();
+                targetFloor = entry.getKey();
             }
         }
 
-        if (targetFloor > currentFloor && !direction.equals("up")) {
-            return true;
-        } else return targetFloor < currentFloor && !direction.equals("down");
+        return currentFloor > targetFloor && direction.equals("up") ||
+                currentFloor < targetFloor && direction.equals("down");
     }
 
     /**
@@ -119,38 +119,33 @@ public class Elevator implements Serializable {
      *
      * @return an array of floor efficiency ratings
      */
-    private float[] rateFloors() {
-        int totalFloors = maxFloor + Math.abs(minFloor) + 1;
-        float[] floorEfficiencyRating = new float[totalFloors];
-        Arrays.fill(floorEfficiencyRating, 0);
+    private Map<Integer, Float> rateFloors() {
+        Map<Integer, Float> floorMap = new TreeMap<>();
 
-        float waitingWeight = 1.0F;
-        float onboardWeight = 1.5F;
-        float distancePenalty = 0.5F;
+        final float waitingWeight = 1.0F;
+        final float onboardWeight = 1.5F;
+        final float distancePenalty = 0.5F;
 
-        for (Person person : waitingList) {
-            int floorIndex = person.getCurrentFloor();
-            floorEfficiencyRating[floorIndex] += waitingWeight;
-        }
+        IntStream.rangeClosed(minFloor, maxFloor).forEach(floor -> {
+            float rating = 0F;
+            int distance = Math.abs(currentFloor - floor);
 
-        for (Person person : onBoard) {
-            int floorIndex = person.getDestinationFloor();
-            floorEfficiencyRating[floorIndex] += onboardWeight;
-        }
+            long waitingCount = waitingList.stream()
+                    .filter(person -> person.getCurrentFloor() == floor)
+                    .count();
 
-        for (int i = 0; i < totalFloors; i++) {
-            if (floorEfficiencyRating[i] > 0) {
-                int distance = Math.abs(currentFloor - i);
-                floorEfficiencyRating[i] -= distance * distancePenalty;
+            long onboardCount = onBoard.stream()
+                    .filter(person -> person.getDestinationFloor() == floor)
+                    .count();
 
-                if ((direction.equals("up") && i > currentFloor) ||
-                        (direction.equals("down") && i < currentFloor)) {
-                    floorEfficiencyRating[i] += distancePenalty;
-                }
-            }
-        }
+            rating += waitingCount * waitingWeight;
+            rating += onboardCount * onboardWeight;
+            rating -= distance * distancePenalty;
 
-        return floorEfficiencyRating;
+            floorMap.put(floor, rating);
+        });
+
+        return floorMap;
     }
 
     /**
@@ -226,10 +221,9 @@ public class Elevator implements Serializable {
      */
     public void printStatus() {
         String direction = this.direction.equals("up") ? "▲" : "▼";
-        System.out.println("▉" + direction);
-        System.out.println("Current floor: " + currentFloor);
-        System.out.println("Onboard people: " + onBoard.size());
-        System.out.println("Waiting list people: " + waitingList.size());
+        System.out.println("Floor: " + currentFloor + " " + direction);
+        System.out.println("People onboard: " + onBoard.size());
+        System.out.println("People waiting: " + waitingList.size());
     }
 
     /**
