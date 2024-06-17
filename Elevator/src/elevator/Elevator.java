@@ -12,6 +12,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * The {@code Elevator} class represents an elevator in the simulation.
+ * Implements {@code Serializable} to allow saving and loading the state of the elevator.
+ */
 public class Elevator implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -25,6 +29,14 @@ public class Elevator implements Serializable {
     private String direction;
     private boolean emergencyStop = false;
 
+    /**
+     * Constructs an {@code Elevator} object with the specified building, maximum number of people, initial floor, and direction.
+     *
+     * @param building     the building object
+     * @param maxPerson    the maximum number of people the elevator can hold
+     * @param initialFloor the initial floor of the elevator
+     * @param direction    the initial direction of the elevator
+     */
     public Elevator(Building building, int maxPerson, int initialFloor, String direction) {
         this.maxFloor = building.maxFloor();
         this.minFloor = building.minFloor();
@@ -33,10 +45,20 @@ public class Elevator implements Serializable {
         this.direction = direction;
     }
 
+    /**
+     * Adds a person to the elevator.
+     *
+     * @param person the person to add to the elevator
+     */
     public void addPersonToWaitingList(Person person) {
         waitingList.add(person);
     }
 
+    /**
+     * Adds a person to the elevator.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     public void simulate() throws IOException {
         while (!waitingList.isEmpty() || !onBoard.isEmpty()) {
             LoadUnloadHandler.unloadPassengers(this);
@@ -52,6 +74,11 @@ public class Elevator implements Serializable {
         System.out.println("Simulation ended.");
     }
 
+    /**
+     * Waits for the user to press Enter to continue the simulation or press "s" to save the current state and exit.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     private void waitEnterUser() throws IOException {
         System.out.println("~~~~Press Enter to continue or press \"s\" to save the current state and exit...");
         Scanner scanner = new Scanner(System.in);
@@ -66,6 +93,9 @@ public class Elevator implements Serializable {
         }
     }
 
+    /**
+     * Moves the elevator up or down based on the current direction.
+     */
     private void move() {
         if (direction.equals("up")) {
             currentFloor++;
@@ -80,6 +110,9 @@ public class Elevator implements Serializable {
         }
     }
 
+    /**
+     * Changes the direction of the elevator.
+     */
     private void changeDirection() {
         if (direction.equals("up")) {
             direction = "down";
@@ -88,6 +121,9 @@ public class Elevator implements Serializable {
         }
     }
 
+    /**
+     * Prints the status of the elevator.
+     */
     public void printStatus() {
         String direction = this.direction.equals("up") ? "▲" : "▼";
         System.out.println("Floor: " + currentFloor + " " + direction);
@@ -119,52 +155,85 @@ public class Elevator implements Serializable {
         }
     }
 
+    /**
+     * Returns the list of people on board the elevator.
+     *
+     * @return the list of people on board the elevator
+     */
     public List<Person> getOnBoard() {
         return onBoard;
     }
 
+    /**
+     * Returns the list of people waiting for the elevator.
+     *
+     * @return the list of people waiting for the elevator
+     */
     public List<Person> getWaitingList() {
         return waitingList;
     }
 
+    /**
+     * Returns the direction of the elevator.
+     *
+     * @return the direction of the elevator
+     */
     public String getDirection() {
         return direction;
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
+    /**
+     * Returns the maximum number of people the elevator can hold.
+     *
+     * @return the maximum number of people the elevator can hold
+     */
     public int getMaxPerson() {
         return maxPerson;
     }
 
+    /**
+     * Returns the minimum floor of the building.
+     *
+     * @return the minimum floor of the building
+     */
     public int getMinFloor() {
         return minFloor;
     }
 
+    /**
+     * Returns the maximum floor of the building.
+     *
+     * @return the maximum floor of the building
+     */
     public int getMaxFloor() {
         return maxFloor;
     }
 
+    /**
+     * Returns the current floor of the elevator.
+     *
+     * @return the current floor of the elevator
+     */
     public int getCurrentFloor() {
         return currentFloor;
     }
 
-    public void setCurrentFloor(int currentFloor) {
-        this.currentFloor = currentFloor;
-    }
-
+    /**
+     * Returns the number of people on board the elevator.
+     *
+     * @return the number of people on board the elevator
+     */
     public int getPersonCount() {
         return personCount;
     }
 
+    /**
+     * Returns whether the emergency stop is activated.
+     *
+     * @return whether the emergency stop is activated
+     */
     public void setPersonCount(int personCount) {
         this.personCount = personCount;
-    }
-
-    public void setEmergencyStop(boolean emergencyStop) {
-        this.emergencyStop = emergencyStop;
     }
 
     public boolean checkMaxPerson() {
