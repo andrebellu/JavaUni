@@ -1,5 +1,7 @@
 package elevator;
 
+import elevator.helper.FileHandler;
+import elevator.helper.StateHandler;
 import it.unibs.fp.mylib.Input;
 import it.unibs.fp.mylib.MyMenu;
 
@@ -13,6 +15,7 @@ import static it.unibs.fp.mylib.Strings.center;
 public class Main {
     /**
      * The main method of the program.
+     *
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
@@ -45,8 +48,9 @@ public class Main {
 
     /**
      * Loads the previous state of the elevator simulation from a file.
+     *
      * @return an {@code Elevator} object representing the previous state of the simulation
-     * @throws IOException if an I/O error occurs
+     * @throws IOException            if an I/O error occurs
      * @throws ClassNotFoundException if the class of the serialized object could not be found
      */
     private static Elevator loadPreviousState() throws IOException, ClassNotFoundException {

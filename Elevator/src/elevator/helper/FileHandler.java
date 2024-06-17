@@ -1,4 +1,8 @@
-package elevator;
+package elevator.helper;
+
+import elevator.Building;
+import elevator.Elevator;
+import elevator.Person;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,6 +19,7 @@ public class FileHandler {
 
     /**
      * Reads the building settings from the options file.
+     *
      * @return a {@code Building} object with the number of floors and the bottom floor
      * @throws IOException if an I/O error occurs
      */
@@ -51,6 +56,7 @@ public class FileHandler {
 
     /**
      * Reads the maximum number of people the elevator can carry from the options file.
+     *
      * @return the maximum number of people the elevator can carry
      * @throws IOException if an I/O error occurs
      */
@@ -76,6 +82,7 @@ public class FileHandler {
 
     /**
      * Reads the initial floor of the elevator from the options file.
+     *
      * @return the initial floor of the elevator
      * @throws IOException if an I/O error occurs
      */
@@ -101,6 +108,7 @@ public class FileHandler {
 
     /**
      * Reads the initial direction of the elevator from the options file.
+     *
      * @return the initial direction of the elevator ("up" or "down")
      * @throws IOException if an I/O error occurs
      */
@@ -126,6 +134,7 @@ public class FileHandler {
 
     /**
      * Reads the people data from the input file and adds them to the waiting list of the elevator.
+     *
      * @param elevator the elevator object
      * @throws IOException if an I/O error occurs
      */
@@ -150,7 +159,7 @@ public class FileHandler {
                 }
 
                 if (currentFloor < elevator.getMinFloor() || currentFloor > elevator.getMaxFloor() ||
-                    destinationFloor < elevator.getMinFloor() || destinationFloor > elevator.getMaxFloor()) {
+                        destinationFloor < elevator.getMinFloor() || destinationFloor > elevator.getMaxFloor()) {
                     System.out.println("\n‼️Error: floor number out of range, check the input file. Person skipped.\n");
                     continue;
                 }

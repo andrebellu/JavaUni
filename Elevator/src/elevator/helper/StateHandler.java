@@ -1,4 +1,6 @@
-package elevator;
+package elevator.helper;
+
+import elevator.Elevator;
 
 import java.io.*;
 
@@ -9,6 +11,7 @@ public class StateHandler {
 
     /**
      * Saves the state of the elevator to a file.
+     *
      * @param elevator the elevator object to save
      * @param filename
      * @throws IOException
