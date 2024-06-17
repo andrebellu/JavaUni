@@ -236,6 +236,11 @@ public class Elevator implements Serializable {
         this.personCount = personCount;
     }
 
+    /**
+     * Checks if the elevator can take more people
+     *
+     * @return true if the elevator can take more people, false otherwise
+     */
     public boolean checkMaxPerson() {
         return personCount < maxPerson;
     }
