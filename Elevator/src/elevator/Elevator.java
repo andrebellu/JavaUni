@@ -93,6 +93,30 @@ public class Elevator implements Serializable {
         System.out.println("Floor: " + currentFloor + " " + direction);
         System.out.println("People onboard: " + onBoard.size());
         System.out.println("People waiting: " + waitingList.size());
+        printBuildingRepresentation();
+    }
+
+    /**
+     * Prints a representation of the building with the elevator position.
+     */
+    public void printBuildingRepresentation() {
+        for (int i = maxFloor; i >= minFloor; i--) {
+            if (i == currentFloor) {
+                if (currentFloor <= 9 && currentFloor >= 0) {
+                    System.out.println("[" + i + "]   [E]");
+                } else if (currentFloor >= 10) {
+                    System.out.println("[" + i + "]  [E]");
+                } else {
+                    System.out.println("[" + i + "]  [E]");
+                }
+            } else {
+                if (i <= 9 && i >= 0) {
+                    System.out.println("[" + i + "]   [ ]");
+                } else {
+                    System.out.println("[" + i + "]  [ ]");
+                }
+            }
+        }
     }
 
     public List<Person> getOnBoard() {
