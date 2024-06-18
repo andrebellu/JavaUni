@@ -19,7 +19,7 @@ public class Main {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-        final String[] VOICES = {"Load simulation state", "Start new simulation"};
+        final String[] VOICES = {"Load simulation state", "Start new simulation from file", "Start new simulation"};
         final String TITLE = "Elevator Simulator";
         MyMenu menu = new MyMenu(center(TITLE, MyMenu.getFrameLength()), VOICES);
         Elevator elevator = null;
@@ -32,6 +32,11 @@ public class Main {
                     Building building = FileHandler.readBuildingSettings();
                     elevator = new Elevator(building, FileHandler.readMaxPeople(), FileHandler.readInitialFloor(), FileHandler.readDirection());
                     FileHandler.readPeopleData(elevator);
+                }
+                case 3 -> {
+                    Building building = new Building(Input.readInt("Enter the number of floors: "), Input.readInt("Enter the bottom floor: "));
+                    elevator = new Elevator(building, Input.readInt("Enter the maximum number of people: "), Input.readInt("Enter the initial floor: "), Input.readNotEmptyString("Enter the initial direction (up/down): "));
+                    elevator = enterPeopleData(elevator);
                 }
             }
 
@@ -56,5 +61,29 @@ public class Main {
     private static Elevator loadPreviousState() throws IOException, ClassNotFoundException {
         String filename = Input.readNotEmptyString("Enter the filename to load: ");
         return StateHandler.loadState("./resources/saves/" + filename);
+    }
+
+    /**
+     * Enters the people data for the elevator simulation.
+     *
+     * @param elevator the elevator object
+     * @return the elevator object with the people data
+     */
+    private static Elevator enterPeopleData(Elevator elevator) {
+        int i = 0;
+        do {
+            i++;
+            int startFloor = Input.readInt("Enter the starting floor of person " + (i) + ": ", elevator.getMinFloor(), elevator.getMaxFloor());
+            int destFloor = Input.readInt("Enter the destination floor of person " + (i) + ": ", elevator.getMinFloor(), elevator.getMaxFloor());
+            if (startFloor == destFloor) {
+                System.out.println("\n‼️Error: current floor and destination floor cannot be the same. Person skipped.\n");
+                continue;
+            }
+            elevator.addPersonToWaitingList(new Person(startFloor, destFloor));
+            if (!Input.yesOrNo("Do you want to add another person? (yes/no)")) {
+                break;
+            }
+        } while (true);
+        return elevator;
     }
 }

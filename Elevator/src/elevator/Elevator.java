@@ -10,7 +10,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * The {@code Elevator} class represents an elevator in the simulation.
@@ -80,7 +82,7 @@ public class Elevator implements Serializable {
      * @throws IOException if an I/O error occurs
      */
     private void waitEnterUser() throws IOException {
-        System.out.println("~~~~Press Enter to continue or press \"s\" to save the current state and exit...");
+        System.out.println("~~~~Press:\n• 'Enter' to continue\n• 's' to save and exit\n• 'e' to activate emergency stop\n• 'a' to add a person");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
@@ -96,7 +98,7 @@ public class Elevator implements Serializable {
     /**
      * Moves the elevator up or down based on the current direction.
      */
-    private void move() {
+    public void move() {
         if (direction.equals("up")) {
             currentFloor++;
             if (currentFloor == maxFloor) {
@@ -113,7 +115,7 @@ public class Elevator implements Serializable {
     /**
      * Changes the direction of the elevator.
      */
-    private void changeDirection() {
+    public void changeDirection() {
         if (direction.equals("up")) {
             direction = "down";
         } else {
@@ -136,20 +138,26 @@ public class Elevator implements Serializable {
      * Prints a representation of the building with the elevator position.
      */
     public void printBuildingRepresentation() {
+        // Group people by their current floor
+        Map<Integer, Long> peopleOnFloors = waitingList.stream()
+                .collect(Collectors.groupingBy(Person::getCurrentFloor, Collectors.counting()));
+
         for (int i = maxFloor; i >= minFloor; i--) {
+            String peopleDots = ".".repeat(Math.toIntExact(peopleOnFloors.getOrDefault(i, 0L)));
+
             if (i == currentFloor) {
                 if (currentFloor <= 9 && currentFloor >= 0) {
-                    System.out.println("[" + i + "]   [E]");
+                    System.out.println("[" + i + "]   [E] " + peopleDots);
                 } else if (currentFloor >= 10) {
-                    System.out.println("[" + i + "]  [E]");
+                    System.out.println("[" + i + "]  [E] " + peopleDots);
                 } else {
-                    System.out.println("[" + i + "]  [E]");
+                    System.out.println("[" + i + "]  [E] " + peopleDots);
                 }
             } else {
                 if (i <= 9 && i >= 0) {
-                    System.out.println("[" + i + "]   [ ]");
+                    System.out.println("[" + i + "]   [ ] " + peopleDots);
                 } else {
-                    System.out.println("[" + i + "]  [ ]");
+                    System.out.println("[" + i + "]  [ ] " + peopleDots);
                 }
             }
         }

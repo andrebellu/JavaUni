@@ -7,9 +7,10 @@ import java.util.TreeMap;
 import java.util.stream.IntStream;
 
 public class DirectionHandler {
-    private static final float WAITING_WEIGHT = 1.0F;
-    private static final float ONBOARD_WEIGHT = 1.5F;
-    private static final float DISTANCE_PENALTY = 0.5F;
+    private static final float WAITING_WEIGHT = 10.0F;
+    private static final float ONBOARD_WEIGHT = 5.0F;
+    private static final float DISTANCE_PENALTY = 1.0F;
+    private static final float BASE_RATING = 50.0F;
 
     public static boolean shouldChangeDirection(Elevator elevator) {
         Map<Integer, Float> floorEfficiencyRating = rateFloors(elevator);
@@ -28,6 +29,7 @@ public class DirectionHandler {
                 elevator.getCurrentFloor() < targetFloor && elevator.getDirection().equals("down");
     }
 
+    // TODO: fix this method
     private static Map<Integer, Float> rateFloors(Elevator elevator) {
         Map<Integer, Float> floorMap = new TreeMap<>();
 
@@ -43,12 +45,17 @@ public class DirectionHandler {
                     .filter(person -> person.getDestinationFloor() == floor)
                     .count();
 
-            rating += waitingCount * WAITING_WEIGHT;
-            rating += onboardCount * ONBOARD_WEIGHT;
-            rating -= distance * DISTANCE_PENALTY;
+            if (waitingCount > 0 || onboardCount > 0) {
+                rating = BASE_RATING;
+                rating += waitingCount * WAITING_WEIGHT;
+                rating += onboardCount * ONBOARD_WEIGHT;
+                rating -= distance * DISTANCE_PENALTY;
+            }
 
             floorMap.put(floor, rating);
         });
+
+        // System.out.println("Floor ratings: " + floorMap);
 
         return floorMap;
     }
