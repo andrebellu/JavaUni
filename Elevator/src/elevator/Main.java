@@ -15,10 +15,8 @@ import static it.unibs.fp.mylib.Strings.center;
 public class Main {
     /**
      * The main method of the program.
-     *
-     * @param args the command-line arguments
      */
-    public static void main(String[] args) {
+    public static void main() {
         final String[] VOICES = {"Load simulation state", "Start new simulation from file", "Start new simulation"};
         final String TITLE = "Elevator Simulator";
         MyMenu menu = new MyMenu(center(TITLE, MyMenu.getFrameLength()), VOICES);

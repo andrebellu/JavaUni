@@ -6,12 +6,22 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 
+/**
+ * Handles the logic for determining if an elevator should change direction based on the efficiency
+ * ratings of floors.
+ */
 public class DirectionHandler {
     private static final float WAITING_WEIGHT = 10.0F;
     private static final float ONBOARD_WEIGHT = 5.0F;
     private static final float DISTANCE_PENALTY = 1.0F;
     private static final float BASE_RATING = 50.0F;
 
+    /**
+     * Determines if the elevator should change direction based on the current efficiency ratings of floors.
+     *
+     * @param elevator the elevator object
+     * @return true if the elevator should change direction, false otherwise
+     */
     public static boolean shouldChangeDirection(Elevator elevator) {
         Map<Integer, Float> floorEfficiencyRating = rateFloors(elevator);
 
@@ -29,7 +39,12 @@ public class DirectionHandler {
                 elevator.getCurrentFloor() < targetFloor && elevator.getDirection().equals("down");
     }
 
-    // TODO: fix this method
+    /**
+     * Rates each floor based on the number of waiting and onboard passengers and the distance from the current floor.
+     *
+     * @param elevator the elevator object
+     * @return a map of floors and their respective efficiency ratings
+     */
     private static Map<Integer, Float> rateFloors(Elevator elevator) {
         Map<Integer, Float> floorMap = new TreeMap<>();
 
@@ -54,8 +69,6 @@ public class DirectionHandler {
 
             floorMap.put(floor, rating);
         });
-
-        // System.out.println("Floor ratings: " + floorMap);
 
         return floorMap;
     }

@@ -69,6 +69,9 @@ public class Elevator implements Serializable {
             if (DirectionHandler.shouldChangeDirection(this)) {
                 changeDirection();
             }
+            if (emergencyStop) {
+                LoadUnloadHandler.unloadPassengersEmergency(this);
+            }
             printStatus();
             waitEnterUser();
         }
@@ -77,21 +80,33 @@ public class Elevator implements Serializable {
     }
 
     /**
-     * Waits for the user to press Enter to continue the simulation or press "s" to save the current state and exit.
+     * Waits for the user to press Enter to continue the simulation, press "s" to save the current state and exit, press "e" to activate/deactivate emergency stop, or press "a" to add a person.
      *
      * @throws IOException if an I/O error occurs
      */
     private void waitEnterUser() throws IOException {
-        System.out.println("~~~~Press:\n• 'Enter' to continue\n• 's' to save and exit\n• 'e' to activate emergency stop\n• 'a' to add a person");
+        System.out.println("~~~~Press:\n• 'Enter' to continue\n• 's' to save and exit\n• 'e' to " + (emergencyStop ? "deactivate" : "activate") + " emergency stop\n• 'a' to add a person");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
-        if (input.equals("s")) {
-            String filename = "./resources/saves/";
-            filename += Input.readNotEmptyString("Enter the filename to save to: ");
-            StateHandler.saveState(this, filename);
-            System.out.println("Simulation saved.");
-            System.exit(0);
+        switch (input) {
+            case "s" -> {
+                String filename = "./resources/saves/";
+                filename += Input.readNotEmptyString("Enter the filename to save to: ");
+                StateHandler.saveState(this, filename);
+                System.out.println("Simulation saved.");
+                System.exit(0);
+            }
+            case "e" -> {
+                setEmergencyStop();
+                System.out.println("Emergency stop " + (emergencyStop ? "activated" : "deactivated"));
+            }
+            case "a" -> {
+                int currentFloor = Input.readInt("Enter the current floor of the person: ");
+                int destinationFloor = Input.readInt("Enter the destination floor of the person: ");
+                Person person = new Person(currentFloor, destinationFloor);
+                addPersonToWaitingList(person);
+            }
         }
     }
 
@@ -99,6 +114,11 @@ public class Elevator implements Serializable {
      * Moves the elevator up or down based on the current direction.
      */
     public void move() {
+        if (emergencyStop) {
+            System.out.println("Emergency stop activated. Elevator is not moving.");
+            return;
+        }
+
         if (direction.equals("up")) {
             currentFloor++;
             if (currentFloor == maxFloor) {
@@ -237,8 +257,6 @@ public class Elevator implements Serializable {
 
     /**
      * Returns whether the emergency stop is activated.
-     *
-     * @return whether the emergency stop is activated
      */
     public void setPersonCount(int personCount) {
         this.personCount = personCount;
@@ -251,5 +269,9 @@ public class Elevator implements Serializable {
      */
     public boolean checkMaxPerson() {
         return personCount < maxPerson;
+    }
+
+    public void setEmergencyStop() {
+        emergencyStop = !emergencyStop;
     }
 }
