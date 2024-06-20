@@ -61,7 +61,9 @@ public class Main {
      * @return an {@code Elevator} object representing the new simulation
      */
     private static Elevator setupNewSimulation() {
-        Building building = new Building(Input.readInt("Enter the number of floors: "), Input.readInt("Enter the bottom floor: "));
+        int floors = Input.readInt("Enter the number of floors: ");
+        int bottomFloor = Input.readInt("Enter the bottom floor: ");
+        Building building = new Building(floors + bottomFloor - 1, bottomFloor);
         Elevator elevator = new Elevator(building, Input.readInt("Enter the maximum number of people: "), Input.readInt("Enter the initial floor: "), Input.readNotEmptyString("Enter the initial direction (up/down): "));
         return enterPeopleData(elevator);
     }
