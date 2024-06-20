@@ -16,14 +16,7 @@ public class LoadUnloadHandler {
      * @param elevator the elevator from which passengers are to be unloaded.
      */
     public static void unloadPassengers(Elevator elevator) {
-        Iterator<Person> iterator = elevator.getOnBoard().iterator();
-        while (iterator.hasNext()) {
-            Person person = iterator.next();
-            if (person.getDestinationFloor() == elevator.getCurrentFloor()) {
-                iterator.remove();
-                elevator.setPersonCount(elevator.getPersonCount() - 1);
-            }
-        }
+        elevator.getOnBoard().removeIf(person -> person.getDestinationFloor() == elevator.getCurrentFloor());
     }
 
     /**
@@ -33,13 +26,13 @@ public class LoadUnloadHandler {
      */
     public static void loadPassengers(Elevator elevator) {
         Iterator<Person> iterator = elevator.getWaitingList().iterator();
+
         while (iterator.hasNext() && elevator.checkMaxPerson()) {
             Person person = iterator.next();
             if (person.getCurrentFloor() == elevator.getCurrentFloor()) {
-                if (elevator.getPersonCount() < elevator.getMaxPerson()) {
+                if (elevator.getOnBoard().size() < elevator.getMaxPerson()) {
                     elevator.getOnBoard().add(person);
                     iterator.remove();
-                    elevator.setPersonCount(elevator.getPersonCount() + 1);
                 }
             }
         }
@@ -58,7 +51,5 @@ public class LoadUnloadHandler {
         elevator.getOnBoard().clear();
 
         System.out.println("Emergency stop at floor " + elevator.getCurrentFloor() + ". All passengers have been unloaded.");
-        System.out.println(elevator.getWaitingList());
-        System.out.println(elevator.getOnBoard());
     }
 }

@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -63,8 +62,9 @@ public class Elevator implements Serializable {
      */
     public void simulate() throws IOException {
         while (continueSimulation()) {
-            performElevatorActions();
-            if (emergencyStop) {
+            if (!emergencyStop) {
+                performElevatorActions();
+            } else {
                 LoadUnloadHandler.unloadPassengersEmergency(this);
             }
             printStatus();
@@ -80,8 +80,7 @@ public class Elevator implements Serializable {
      */
     private void waitEnterUser() throws IOException {
         System.out.println("~~~~Press:\n• 'Enter' to continue\n• 's' to save and exit\n• 'e' to " + (emergencyStop ? "deactivate" : "activate") + " emergency stop\n• 'a' to add a person");
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
+        String input = Input.readString("Enter your choice: ").toLowerCase();
 
         switch (input) {
             case "s" -> {
@@ -141,10 +140,10 @@ public class Elevator implements Serializable {
     private void performElevatorActions() {
         LoadUnloadHandler.unloadPassengers(this);
         LoadUnloadHandler.loadPassengers(this);
-        move();
         if (DirectionHandler.shouldChangeDirection(this)) {
             changeDirection();
         }
+        move();
     }
 
     /**
@@ -262,28 +261,12 @@ public class Elevator implements Serializable {
     }
 
     /**
-     * Returns the number of people on board the elevator.
-     *
-     * @return the number of people on board the elevator
-     */
-    public int getPersonCount() {
-        return personCount;
-    }
-
-    /**
-     * Returns whether the emergency stop is activated.
-     */
-    public void setPersonCount(int personCount) {
-        this.personCount = personCount;
-    }
-
-    /**
      * Checks if the elevator can take more people
      *
      * @return true if the elevator can take more people, false otherwise
      */
     public boolean checkMaxPerson() {
-        return personCount < maxPerson;
+        return getOnBoard().size() < maxPerson;
     }
 
     public void setEmergencyStop() {
