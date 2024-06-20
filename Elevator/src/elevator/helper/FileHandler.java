@@ -14,8 +14,8 @@ import java.io.IOException;
 public class FileHandler {
     // static final String OPTIONS = System.getProperty("os.name").toLowerCase().contains("win") ? "resources\\options.txt" : "resources/options.txt";
     // static final String INPUT = System.getProperty("os.name").toLowerCase().contains("win") ? "resources\\input.txt" : "resources/input.txt";
-    static final String OPTIONS = "resources/options.txt";
-    static final String INPUT = "resources/input.txt";
+    static final String OPTIONS = "resources/sim_settings/options.txt";
+    static final String INPUT = "resources/sim_settings/input.txt";
 
     /**
      * Reads the building settings from the options file.

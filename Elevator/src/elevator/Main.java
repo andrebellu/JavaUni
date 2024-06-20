@@ -17,26 +17,36 @@ public class Main {
      * The main method of the program.
      */
     public static void main() {
-        final String[] VOICES = {"Load simulation state", "Start new simulation from file", "Start new simulation"};
+        final String[] VOICES = {"Load simulation state", "Start new simulation from file", "Start new simulation", "Help"};
         final String TITLE = "Elevator Simulator";
         MyMenu menu = new MyMenu(center(TITLE, MyMenu.getFrameLength()), VOICES);
         Elevator elevator = null;
 
         try {
-            int choice = menu.scegli();
-            switch (choice) {
-                case 1 -> elevator = loadPreviousState();
-                case 2 -> {
-                    Building building = FileHandler.readBuildingSettings();
-                    elevator = new Elevator(building, FileHandler.readMaxPeople(), FileHandler.readInitialFloor(), FileHandler.readDirection());
-                    FileHandler.readPeopleData(elevator);
+            int choice;
+            do {
+                choice = menu.scegli();
+                switch (choice) {
+                    case 1 -> elevator = loadPreviousState();
+                    case 2 -> {
+                        Building building = FileHandler.readBuildingSettings();
+                        elevator = new Elevator(building, FileHandler.readMaxPeople(), FileHandler.readInitialFloor(), FileHandler.readDirection());
+                        FileHandler.readPeopleData(elevator);
+                    }
+                    case 3 -> {
+                        Building building = new Building(Input.readInt("Enter the number of floors: "), Input.readInt("Enter the bottom floor: "));
+                        elevator = new Elevator(building, Input.readInt("Enter the maximum number of people: "), Input.readInt("Enter the initial floor: "), Input.readNotEmptyString("Enter the initial direction (up/down): "));
+                        elevator = enterPeopleData(elevator);
+                    }
+                    case 4 -> {
+                        System.out.println("Help, commands description:");
+                        System.out.println("1. Load simulation state: Load the previous state of the elevator simulation from a save file.");
+                        System.out.println("2. Start new simulation from file: Start a new simulation from a file, using the settings and input in resources/sim_settings folder.");
+                        System.out.println("3. Start new simulation: Start a new simulation by entering the building settings and people data.");
+                        System.out.println();
+                    }
                 }
-                case 3 -> {
-                    Building building = new Building(Input.readInt("Enter the number of floors: "), Input.readInt("Enter the bottom floor: "));
-                    elevator = new Elevator(building, Input.readInt("Enter the maximum number of people: "), Input.readInt("Enter the initial floor: "), Input.readNotEmptyString("Enter the initial direction (up/down): "));
-                    elevator = enterPeopleData(elevator);
-                }
-            }
+            } while (choice == 4);
 
             if (elevator != null) {
                 elevator.simulate();
