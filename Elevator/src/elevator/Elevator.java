@@ -62,20 +62,14 @@ public class Elevator implements Serializable {
      * @throws IOException if an I/O error occurs
      */
     public void simulate() throws IOException {
-        while (!waitingList.isEmpty() || !onBoard.isEmpty()) {
-            LoadUnloadHandler.unloadPassengers(this);
-            LoadUnloadHandler.loadPassengers(this);
-            move();
-            if (DirectionHandler.shouldChangeDirection(this)) {
-                changeDirection();
-            }
+        while (continueSimulation()) {
+            performElevatorActions();
             if (emergencyStop) {
                 LoadUnloadHandler.unloadPassengersEmergency(this);
             }
             printStatus();
             waitEnterUser();
         }
-
         System.out.println("Simulation ended.");
     }
 
@@ -129,6 +123,27 @@ public class Elevator implements Serializable {
             if (currentFloor == minFloor) {
                 changeDirection();
             }
+        }
+    }
+
+    /**
+     * Checks if the simulation should continue.
+     *
+     * @return true if the simulation should continue, false otherwise
+     */
+    private boolean continueSimulation() {
+        return !waitingList.isEmpty() || !onBoard.isEmpty();
+    }
+
+    /**
+     * Performs the actions of the elevator.
+     */
+    private void performElevatorActions() {
+        LoadUnloadHandler.unloadPassengers(this);
+        LoadUnloadHandler.loadPassengers(this);
+        move();
+        if (DirectionHandler.shouldChangeDirection(this)) {
+            changeDirection();
         }
     }
 
